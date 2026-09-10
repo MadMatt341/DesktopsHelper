@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 2,
+  "timestampUtc": "2026-09-10T16:03:41.5082219Z",
+  "scenario": "idle-visible-widget",
+  "osBuild": "26200.9445",
+  "logicalProcessors": 20,
+  "exeSha256": "341E73EDF434119DF1BD167EE5F64BEF197A941E0388A00C9FA783B8E520BBF5",
+  "adapterSha256": "D165C607863E6A1636C3736DE78863FACCDCF9BBF33738D8D4E5893083FAA051",
+  "startupToReadyMs": 59.1783,
+  "warmupSeconds": 1,
+  "elapsedSeconds": 10.0871229,
+  "cpuMs": 15.625,
+  "cpuPercentOfOneCore": 0.15490046225172888,
+  "workingSetPeakMiB": 12.19921875,
+  "privatePeakMiB": 2.00390625,
+  "budgets": {
+    "workingSetPeakMiB": 30,
+    "cpuPercentOfOneCore": 0.1,
+    "startupToReadyMs": 1000,
+    "privatePeakMiB": 20
+  },
+  "passed": false,
+  "samples": [
+    {
+      "elapsedSeconds": 1.0030712,
+      "cpuTotalMs": 15.625,
+      "workingSetBytes": 12541952,
+      "privateBytes": 2068480,
+      "handles": 164,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 2.0129307,
+      "cpuTotalMs": 15.625,
+      "workingSetBytes": 12541952,
+      "privateBytes": 2068480,
+      "handles": 164,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 3.023585,
+      "cpuTotalMs": 15.625,
+      "workingSetBytes": 12562432,
+      "privateBytes": 2068480,
+      "handles": 164,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 4.0340946,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12562432,
+      "privateBytes": 2068480,
+      "handles": 164,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 5.0445866,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 6.0535442,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 7.0586601,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 8.0629369,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 9.0732906,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    },
+    {
+      "elapsedSeconds": 10.0846437,
+      "cpuTotalMs": 31.25,
+      "workingSetBytes": 12791808,
+      "privateBytes": 2101248,
+      "handles": 165,
+      "threads": 6,
+      "gdiObjects": 4,
+      "userObjects": 10
+    }
+  ],
+  "forcedTermination": false,
+  "exitCode": 2,
+  "failure": "Performance budget exceeded. See benchmarks/benchmark-rejects-hung-shutdown.json"
+}

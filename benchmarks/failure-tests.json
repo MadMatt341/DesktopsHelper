@@ -1,0 +1,38 @@
+[
+  {
+    "mode": 1,
+    "health": {
+      "responsive": true,
+      "ready": false
+    },
+    "exitCode": 0,
+    "passed": true
+  },
+  {
+    "mode": 2,
+    "health": {
+      "responsive": true,
+      "ready": false
+    },
+    "exitCode": 2,
+    "passed": true
+  },
+  {
+    "mode": 3,
+    "health": {
+      "responsive": true,
+      "ready": true
+    },
+    "exitCode": 2,
+    "passed": true
+  },
+  {
+    "mode": 4,
+    "health": {
+      "responsive": true,
+      "ready": true
+    },
+    "exitCode": 0,
+    "passed": true
+  }
+]

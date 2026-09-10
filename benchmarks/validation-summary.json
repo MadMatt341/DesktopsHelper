@@ -1,0 +1,13 @@
+{
+  "timestampUtc": "2026-09-10T15:30:30.9075103Z",
+  "exeSha256": "5210C70F1F3117EAA00408F3AD9020279C5228F7747AC1045C0649A9D7394C8B",
+  "adapterSha256": "DB086694D122FFFD91F55D5112264D02741B2E51CADA8D0F578A82713A791AD5",
+  "osBuild": "26200.9445",
+  "compiler": "15.1.0",
+  "normalShortcutOperations": 100,
+  "normalShortcutFailures": 0,
+  "debuggerShortcutOperations": 100,
+  "debuggerShortcutFailures": 0,
+  "cleanShutdownExitCode": 0,
+  "openIssue": "One earlier COM access violation; not reproduced in subsequent stress tests."
+}

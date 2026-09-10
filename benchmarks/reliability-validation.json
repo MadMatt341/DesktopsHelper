@@ -1,0 +1,104 @@
+{
+  "timestampUtc": "2026-09-10T16:16:28.3168198Z",
+  "exeSha256": "EE84BC7CE434DF4E351B3AF16D7E96E0CAD0380D684B4316CC022033C4FFAC64",
+  "adapterSha256": "5CC8E8905A04A2E14B331A4E974F41AE01FE20F1D276BB06F547FA0DC5BFEAFC",
+  "inputPolicy": "Input policy: 9 cases passed",
+  "adapter": {
+    "desktopCount": 5,
+    "currentDesktop": 1,
+    "failures": 0,
+    "notifications": 5,
+    "switchAndNotificationMs": [
+      1.331,
+      44.539,
+      29.435,
+      29.494,
+      29.026
+    ],
+    "moveAndVerifyMs": [
+      3.886,
+      2.92,
+      5.077,
+      4.01,
+      3.33
+    ]
+  },
+  "passed": true,
+  "topology": {
+    "topologyCases": 2,
+    "failures": 0,
+    "desktopCountRestored": true,
+    "focusEstablished": false
+  },
+  "shortcutRuns": [
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 1
+    }
+  ],
+  "reconnect": "Reconnect event passed",
+  "visibility": [
+    "visible=1 iconic=0 cloaked=0 rect=8,1400,168,1432 hitWidget=1",
+    "coveringClass=DesktopsHelper.Widget"
+  ],
+  "threadBasePriorities": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "exitCode": 0
+}
