@@ -1,6 +1,6 @@
 {
-  "timestampUtc": "2026-09-10T16:16:28.3168198Z",
-  "exeSha256": "EE84BC7CE434DF4E351B3AF16D7E96E0CAD0380D684B4316CC022033C4FFAC64",
+  "timestampUtc": "2026-09-10T16:59:29.7067618Z",
+  "exeSha256": "88A0354BF63273C809B608AC0C4BB869DE6FFF21FFE118006DDE8466E45FE55B",
   "adapterSha256": "5CC8E8905A04A2E14B331A4E974F41AE01FE20F1D276BB06F547FA0DC5BFEAFC",
   "inputPolicy": "Input policy: 9 cases passed",
   "adapter": {
@@ -9,18 +9,18 @@
     "failures": 0,
     "notifications": 5,
     "switchAndNotificationMs": [
-      1.331,
-      44.539,
-      29.435,
-      29.494,
-      29.026
+      1.563,
+      64.672,
+      58.792,
+      29.412,
+      29.971
     ],
     "moveAndVerifyMs": [
-      3.886,
-      2.92,
-      5.077,
-      4.01,
-      3.33
+      5.514,
+      3.319,
+      3.955,
+      4.284,
+      3.995
     ]
   },
   "passed": true,
@@ -84,12 +84,20 @@
   ],
   "reconnect": "Reconnect event passed",
   "visibility": [
-    "visible=1 iconic=0 cloaked=0 rect=8,1400,168,1432 hitWidget=1",
+    "visible=1 iconic=0 cloaked=0 rect=8,1400,158,1432 hitWidget=1",
     "coveringClass=DesktopsHelper.Widget"
   ],
+  "fullscreen": [
+    "windowed: PASS",
+    "maximized: PASS",
+    "fullscreen without focus change: PASS",
+    "exit fullscreen without focus change: PASS",
+    "reenter fullscreen: PASS",
+    "minimize fullscreen: PASS",
+    "restore fullscreen: PASS",
+    "close fullscreen: PASS"
+  ],
   "threadBasePriorities": [
-    8,
-    8,
     8,
     8,
     8,

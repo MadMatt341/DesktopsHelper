@@ -6,7 +6,7 @@ A small native Windows widget for working across five virtual desktops on one mo
 
 Open `build/release/DesktopsHelper.exe`. Keep the bundled `VirtualDesktopAccessor.dll` beside it. The adapter statically links its C runtime; no separate Visual C++ redistributable, .NET runtime, installation, administrator rights, or network connection is needed for this build. Clean-machine qualification beyond the tested Windows build remains outstanding.
 
-- **Win+1–5:** switch to that desktop.
+- **Win+1–5:** switch to that desktop and hand keyboard focus to its frontmost available window (or the desktop shell if none is available).
 - **Shift+Win+1–5:** move the foreground window there and stay on your current desktop.
 - **Click a number:** switch desktops without activating the widget.
 - **Right-click the widget or its tray icon:** change placement, reconnect, or exit.
@@ -77,7 +77,7 @@ Avoid typing or clicking during shortcut tests because they temporarily control 
 
 ## Design and compatibility
 
-The UI repaints only when needed. A dedicated keyboard thread intercepts Win+1–5 and Shift+Win+1–5 and submits commands to a bounded internal queue. A separate worker owns desktop COM calls and notification registration; the UI never waits for a desktop operation. External window messages carry wakeups, not executable commands or window pointers. Move requests capture their target and process ID and reject stale targets. Ctrl/Alt combinations and other digits pass through. No keystrokes are saved or transmitted.
+The UI repaints only when needed. A dedicated keyboard thread intercepts Win+1–5 and Shift+Win+1–5 and submits commands to a bounded internal queue. A separate worker owns desktop COM calls and notification registration; the UI never waits for a desktop operation. After a requested switch, a short-lived timer lets Explorer settle before the worker activates a destination window. It preserves an already focused destination or pinned window, skips minimized windows and the widget, and stops within 1.5 seconds; there is no idle focus polling. If ordinary activation is denied, the worker temporarily attaches to the foreground and destination input queues, activates the destination, and detaches. An unresponsive app can stall that worker, which remains subject to the existing service timeout and shutdown deadline. External window messages carry wakeups, not executable commands or window pointers. Move requests capture their target and process ID and reject stale targets. Ctrl/Alt combinations and other digits pass through. No keystrokes are saved or transmitted.
 
 The patched adapter forwards switches, creation, deletion, and reordering notifications and confirms successful subscription before the helper reports ready. Its threads use normal priority and block on events with no recurring health-check timer. Explorer's `TaskbarCreated` broadcast and reported operation failures trigger reconnection. Recovery makes up to five delayed retries and then stops. A five-second deadline runs only while work is pending. Timed-out/unavailable service releases new shortcut combinations to Windows and clears the active-number highlight. Use Reconnect if recovery stops; a stuck worker requires restarting the helper. A silently lost subscription without a restart or API error still requires manual reconnect; there is deliberately no idle polling fallback.
 

@@ -19,6 +19,60 @@ static BOOL stopping, refreshQueued;
 static Adapter vd;
 static BOOL subscribed;
 static BOOL adapterAttempted, adapterLoaded;
+static int focusDesktop = -1;
+static ULONGLONG focusStarted;
+
+static BOOL focus_candidate(HWND hwnd, int desktop) {
+    LONG_PTR style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+    return hwnd && hwnd != host && hwnd != GetShellWindow() &&
+        hwnd != FindWindowW(L"Shell_TrayWnd", NULL) && IsWindowVisible(hwnd) &&
+        IsWindowEnabled(hwnd) && !IsIconic(hwnd) && !(style & WS_EX_NOACTIVATE) &&
+        vd.windowDesktop(hwnd) == desktop;
+}
+static BOOL CALLBACK find_focus(HWND hwnd, LPARAM param) {
+    HWND *target = (HWND *)param;
+    if (focus_candidate(hwnd, focusDesktop) &&
+        !(GetWindowLongPtrW(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
+        *target = hwnd;
+        return FALSE;
+    }
+    return TRUE;
+}
+static void focus_destination(int current) {
+    if (focusDesktop < 0 || current != focusDesktop) return;
+    // Switching returns before Explorer finishes transferring activation.
+    if (GetTickCount64() - focusStarted < 150) return;
+    HWND foreground = GetForegroundWindow();
+    if (focus_candidate(foreground, current) ||
+        (foreground && foreground != host && IsWindowVisible(foreground) &&
+         !IsIconic(foreground) && vd.isPinned(foreground) == 1)) {
+        focusDesktop = -1;
+        KillTimer(receiver, 1);
+        return;
+    }
+    // EnumWindows follows Z order, retaining the destination's frontmost app.
+    // Do not restore minimized apps or activate the overlay on an empty desktop.
+    HWND target = NULL;
+    EnumWindows(find_focus, (LPARAM)&target);
+    if (!target) target = GetShellWindow();
+    if (target && !SetForegroundWindow(target)) {
+        DWORD own = GetCurrentThreadId();
+        DWORD foregroundThread = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
+        // Only the worker temporarily shares foreground input. The keyboard hook
+        // and UI remain independent, and no desktop COM calls run while attached.
+        if (foregroundThread && foregroundThread != own &&
+            AttachThreadInput(own, foregroundThread, TRUE)) {
+            DWORD targetThread = GetWindowThreadProcessId(target,NULL);
+            BOOL targetAttached = targetThread != own && targetThread != foregroundThread &&
+                AttachThreadInput(own,targetThread,TRUE);
+            SetForegroundWindow(target);
+            if (targetAttached) AttachThreadInput(own,targetThread,FALSE);
+            AttachThreadInput(own, foregroundThread, FALSE);
+        }
+    }
+    focusDesktop = -1;
+    KillTimer(receiver, 1);
+}
 
 static void changed(void) { PostMessageW(host, SERVICE_UPDATE, 0, 0); }
 ServiceState service_state(void) {
@@ -68,11 +122,19 @@ void service_timeout(void) {
 }
 static LRESULT CALLBACK receiver_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     if (msg == DESKTOP_EVENT) { enqueue((Command){.kind=REFRESH}); return 0; }
+    if (msg == WM_TIMER && wp == 1) {
+        if (GetTickCount64() - focusStarted >= 1500 || !service_state().ready) {
+            focusDesktop = -1; KillTimer(hwnd, 1);
+        } else enqueue((Command){.kind=REFRESH});
+        return 0;
+    }
     return DefWindowProcW(hwnd,msg,wp,lp);
 }
 static ServiceError execute(Command c) {
     diagnostics_phase(10+(long)c.kind);
     if (c.kind == CONNECT) {
+        focusDesktop = -1;
+        KillTimer(receiver, 1);
         if (!adapterAttempted) { adapterAttempted=TRUE; adapterLoaded=loadAdapter(&vd); }
         if (!adapterLoaded) return SERVICE_CONNECT_ERROR;
         if (subscribed) { vd.unsubscribe(receiver); subscribed = FALSE; }
@@ -91,10 +153,15 @@ static ServiceError execute(Command c) {
         for (int i=desktops; i<=c.desktop; ++i) if(vd.create()<0) return SERVICE_CONNECT_ERROR;
         if ((c.move ? vd.move(c.target,c.desktop) : vd.go(c.desktop)) < 0)
             return c.move ? SERVICE_MOVE_ERROR : SERVICE_CONNECT_ERROR;
+        if (!c.move) {
+            focusDesktop = c.desktop; focusStarted = GetTickCount64();
+            SetTimer(receiver, 1, 50, NULL);
+        }
         if (c.move && vd.windowDesktop(c.target) != c.desktop) return SERVICE_MOVE_ERROR;
     }
     int current = vd.current();
     if (current < 0) return SERVICE_CONNECT_ERROR;
+    focus_destination(current);
     AcquireSRWLockExclusive(&lock); state.current = current; ReleaseSRWLockExclusive(&lock);
     return SERVICE_OK;
 }
