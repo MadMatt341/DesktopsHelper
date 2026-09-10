@@ -22,3 +22,5 @@ if ($LASTEXITCODE) { throw 'Input test build failed' }
 gcc -std=c11 -O2 -Wall -Wextra -Werror tests/lifecycle.c -o build/release/lifecycle.exe -luser32 -lole32
 if ($LASTEXITCODE) { throw 'Lifecycle test build failed' }
 Write-Output 'Built build/release/DesktopsHelper.exe'
+gcc -std=c11 -O2 -Wall -Wextra -Werror tests/fullscreen.c -o build/release/fullscreen.exe -luser32
+if ($LASTEXITCODE) { throw 'Fullscreen test build failed' }

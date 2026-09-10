@@ -32,6 +32,7 @@ try {
     Start-Sleep -Seconds 1
     $report['reconnect']=Run-Check './build/release/health.exe' @('reconnect')
     $report['visibility']=Run-Check './build/release/visibility.exe' @('--exercise')
+    $report['fullscreen']=Run-Check './build/release/fullscreen.exe'
     $process.Refresh()
     $priorities=@($process.Threads | ForEach-Object {$_.BasePriority})
     $report['threadBasePriorities']=$priorities

@@ -32,11 +32,57 @@ static ITaskbarList *taskbar;
 static unsigned retries;
 static BOOL wasReady;
 static ServiceError lastError;
-static HWINEVENTHOOK foregroundEvents, reorderEvents;
+static HWINEVENTHOOK foregroundEvents, reorderEvents, geometryEvents, lifecycleEvents;
+static HWND lastForeground;
+static DWORD observedThread;
+static void CALLBACK stackingChanged(HWINEVENTHOOK, DWORD, HWND, LONG, LONG, DWORD, DWORD);
 static LONG visibilityPending;
 static const wchar_t *className = L"DesktopsHelper.Widget";
 
 static void ensureVisible(void) {
+    HWND active = GetForegroundWindow();
+    lastForeground = active;
+    DWORD activeThread = active ? GetWindowThreadProcessId(active,NULL) : 0;
+    if (foregroundEvents && activeThread && activeThread != observedThread) {
+        HWINEVENTHOOK geometry = SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE,
+            NULL, stackingChanged, 0, activeThread, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+        HWINEVENTHOOK lifecycle = SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_HIDE,
+            NULL, stackingChanged, 0, activeThread, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+        if (geometry && lifecycle) {
+            if (geometryEvents) UnhookWinEvent(geometryEvents);
+            if (lifecycleEvents) UnhookWinEvent(lifecycleEvents);
+            geometryEvents=geometry; lifecycleEvents=lifecycle; observedThread=activeThread;
+        } else {
+            if (geometry) UnhookWinEvent(geometry);
+            if (lifecycle) UnhookWinEvent(lifecycle);
+        }
+    }
+    BOOL fullscreen = FALSE;
+    if (active && active != widget && IsWindowVisible(active) && !IsIconic(active)) {
+        wchar_t cls[64] = {0};
+        GetClassNameW(active, cls, ARRAYSIZE(cls));
+        HMONITOR monitor = MonitorFromWindow(widget, MONITOR_DEFAULTTOPRIMARY);
+        MONITORINFO mi = {.cbSize = sizeof(mi)};
+        RECT client;
+        if (wcscmp(cls,L"Shell_TrayWnd") && wcscmp(cls,L"Shell_SecondaryTrayWnd") &&
+            wcscmp(cls,L"Progman") && wcscmp(cls,L"WorkerW") &&
+            MonitorFromWindow(active,MONITOR_DEFAULTTONULL) == monitor &&
+            GetMonitorInfoW(monitor,&mi) && GetClientRect(active,&client)) {
+            POINT origin = {0,0};
+            if (ClientToScreen(active,&origin))
+                fullscreen = origin.x <= mi.rcMonitor.left && origin.y <= mi.rcMonitor.top &&
+                    origin.x + client.right >= mi.rcMonitor.right &&
+                    origin.y + client.bottom >= mi.rcMonitor.bottom;
+        }
+    }
+    if (fullscreen) {
+        if (IsWindowVisible(widget)) ShowWindow(widget,SW_HIDE);
+        return;
+    }
+    if (!IsWindowVisible(widget)) {
+        ShowWindow(widget,SW_SHOWNOACTIVATE);
+        if (taskbar) ITaskbarList_DeleteTab(taskbar,widget);
+    }
     RECT r;
     if (!GetWindowRect(widget, &r) || !IsWindowVisible(widget)) return;
     POINT center = {(r.left + r.right)/2, (r.top + r.bottom)/2};
@@ -48,6 +94,12 @@ static void ensureVisible(void) {
 static void CALLBACK stackingChanged(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
     LONG object, LONG child, DWORD thread, DWORD time) {
     (void)hook; (void)object; (void)child; (void)thread; (void)time;
+    if (event >= EVENT_OBJECT_DESTROY && event != EVENT_OBJECT_REORDER) {
+        if (object != OBJID_WINDOW || child != CHILDID_SELF ||
+            (event != EVENT_OBJECT_LOCATIONCHANGE && event != EVENT_OBJECT_HIDE &&
+             event != EVENT_OBJECT_SHOW && event != EVENT_OBJECT_DESTROY) ||
+            (hwnd != GetForegroundWindow() && hwnd != lastForeground)) return;
+    }
     if (event == EVENT_OBJECT_REORDER && hwnd && hwnd != GetDesktopWindow() &&
         GetAncestor(hwnd,GA_ROOT) != FindWindowW(L"Shell_TrayWnd",NULL)) return;
     // Coalesce Explorer/window stacking events. Never poll or steal focus.
@@ -93,6 +145,7 @@ static void position(void) {
     if (oldRegular) DeleteObject(oldRegular);
     if (oldBold) DeleteObject(oldBold);
     InvalidateRect(widget, NULL, FALSE);
+    ensureVisible();
 }
 
 static void updateService(void) {
@@ -187,6 +240,8 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     case WM_DESTROY:
         if (foregroundEvents) UnhookWinEvent(foregroundEvents);
         if (reorderEvents) UnhookWinEvent(reorderEvents);
+        if (geometryEvents) UnhookWinEvent(geometryEvents);
+        if (lifecycleEvents) UnhookWinEvent(lifecycleEvents);
         KillTimer(hwnd,DEADLINE_TIMER); KillTimer(hwnd,RETRY_TIMER);
         RemovePropW(hwnd,L"DesktopsHelper.Ready"); RemovePropW(hwnd,L"DesktopsHelper.Current");
         RemovePropW(hwnd,L"DesktopsHelper.Connection");
@@ -215,7 +270,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
     widget = CreateWindowExW(WS_EX_TOPMOST | WS_EX_APPWINDOW, className, L"Desktops Helper", WS_POPUP,
         0,0,160,32,NULL,NULL,instance,NULL);
     if (!widget) return 1;
-    position(); ShowWindow(widget, SW_SHOWNOACTIVATE);
+    position();
     addTray();
     if (SUCCEEDED(CoCreateInstance(&CLSID_TaskbarList,NULL,CLSCTX_INPROC_SERVER,&IID_ITaskbarList,(void**)&taskbar)))
         ITaskbarList_HrInit(taskbar);
@@ -227,7 +282,11 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
         NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
     reorderEvents = SetWinEventHook(EVENT_OBJECT_REORDER, EVENT_OBJECT_REORDER,
         NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-    if(!foregroundEvents || !reorderEvents) {
+    geometryEvents = SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE,
+        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+    lifecycleEvents = SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_HIDE,
+        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+    if(!foregroundEvents || !reorderEvents || !geometryEvents || !lifecycleEvents) {
         MessageBoxW(NULL,L"Could not monitor taskbar visibility.",L"Desktops Helper",MB_ICONERROR);
         DestroyWindow(widget); return 1;
     }

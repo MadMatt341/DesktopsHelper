@@ -13,6 +13,8 @@ Open `build/release/DesktopsHelper.exe`. Keep the bundled `VirtualDesktopAccesso
 
 The active number is bold and underlined. Missing destination desktops are created on demand; existing desktops and their names are preserved. Desktops beyond five remain accessible through Windows Task View; none of 1–5 is highlighted when you're on one of them. Use the number row, not the numeric keypad.
 
+The widget hides while the foreground app has fullscreen content covering its monitor and returns without taking focus when that app leaves fullscreen, is minimized/closed, or loses foreground status. Ordinary maximized windows keep the indicator visible. Foreground, geometry, and window lifecycle events drive this behavior without polling; desktop shortcuts remain active while hidden.
+
 The widget overlays the bottom-left taskbar area. It listens for foreground and window-stacking changes and restores its position above the taskbar if Explorer covers it; this uses no polling timer. If it covers Weather, Start, or another control, select **Place above taskbar**. `DesktopsHelper.exe --above-taskbar` starts in that position. Auto-hide taskbars use the above-taskbar placement. Placement changes from the menu last for the current session.
 
 Exiting restores normal Windows shortcuts. There is no automatic startup registration.
@@ -52,6 +54,9 @@ With the helper stopped, `./scripts/test.ps1` runs the normal regression suite a
 # Verify the indicator remains uncovered when the taskbar comes to the front:
 ./build/release/visibility.exe --exercise
 
+# While the helper is running: fullscreen, restore, minimize, and close transitions.
+./build/release/fullscreen.exe
+
 # While the helper is running: temporary desktops test reorder/delete notifications.
 ./build/release/topology.exe
 
@@ -78,7 +83,7 @@ The patched adapter forwards switches, creation, deletion, and reordering notifi
 
 Shutdown unregisters notifications without holding the adapter listener lock while joining threads. Notification threads explicitly initialize and release COM, with their proxies released before COM teardown. If the worker fails to stop within two seconds, the process terminates with code 2, bypassing DLL detach to avoid waiting on locks owned by a hung thread. Benchmarks treat this as failure. Input, desktop service, UI, and crash diagnostics are separate modules under `src/`.
 
-Windows 11 no longer supports traditional third-party taskbar deskbands, so this is a separate overlay. It reserves no taskbar space and can cover existing controls. Explorer must register it as an application window so it can be pinned across desktops; its taskbar button is removed through `ITaskbarList`. It may still appear in Alt+Tab/Task View. Full-screen apps, multiple monitors, and every DPI/taskbar configuration have not been qualified.
+Windows 11 no longer supports traditional third-party taskbar deskbands, so this is a separate overlay. It reserves no taskbar space and can cover existing controls. Explorer must register it as an application window so it can be pinned across desktops; its taskbar button is removed through `ITaskbarList`. It may still appear in Alt+Tab/Task View. Borderless fullscreen transitions are covered by a disposable-window regression test. Exclusive fullscreen games, multiple monitors, and every DPI/taskbar configuration still need manual qualification.
 
 The public Windows desktop API is insufficient for switching desktops or moving other apps' windows. The helper uses the MIT-licensed [VirtualDesktopAccessor](https://github.com/Ciantic/VirtualDesktopAccessor) adapter, based on commit `8172097993b1194e3d5e2ff38421ebb06f867b6c` with the checked-in `scripts/patch-adapter.py` changes. The immutable upstream archive and license are included. The host checks a private ABI marker before calling COM, so an older upstream DLL is rejected. Use the bundled patched DLL. Target: x64 Windows 11 24H2 and newer; tested on **25H2 26200.9445**. These undocumented COM interfaces may change with Windows updates.
 
