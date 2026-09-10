@@ -3,7 +3,7 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 $expected = (Get-Content vendor/adapter.sha256).Trim()
 if ((Get-FileHash vendor/VirtualDesktopAccessor.dll).Hash -ne $expected) { throw 'Adapter SHA256 mismatch' }
 New-Item -ItemType Directory -Force build/release | Out-Null
-gcc -std=c11 -O2 -Wall -Wextra -Werror -municode -mwindows -s src/main.c src/service.c src/input.c src/diagnostics.c -o build/release/DesktopsHelper.exe -luser32 -lgdi32 -lshell32 -lole32 -luuid
+gcc -std=c11 -O2 -Wall -Wextra -Werror -municode -mwindows -s src/main.c src/service.c src/input.c src/diagnostics.c -o build/release/DesktopsHelper.exe -luser32 -lgdi32 -lshell32 -lole32 -luuid -ladvapi32
 if ($LASTEXITCODE) { throw 'Build failed' }
 Copy-Item vendor/VirtualDesktopAccessor.dll build/release/
 Copy-Item vendor/LICENSE.VirtualDesktopAccessor.txt build/release/

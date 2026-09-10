@@ -11,7 +11,7 @@ Open `build/release/DesktopsHelper.exe`. Keep the bundled `VirtualDesktopAccesso
 - **Click a number:** switch desktops without activating the widget.
 - **Right-click the widget or its tray icon:** change placement, reconnect, or exit.
 
-The active number is bold and underlined. Missing destination desktops are created on demand; existing desktops and their names are preserved. Desktops beyond five remain accessible through Windows Task View; none of 1–5 is highlighted when you're on one of them. Use the number row, not the numeric keypad.
+The compact strip uses 13-pixel Consolas digits (scaled for DPI), rounded corners, subtle hover feedback, and a filled active button with a bold number and blue underline. Its neutral colors follow the Windows system light/dark setting and use system colors in high-contrast mode. Theme changes update through Windows messages; there are no animations or repaint timers. Missing destination desktops are created on demand; existing desktops and their names are preserved. Desktops beyond five remain accessible through Windows Task View; none of 1–5 is highlighted when you're on one of them. Use the number row, not the numeric keypad.
 
 The widget hides while the foreground app has fullscreen content covering its monitor and returns without taking focus when that app leaves fullscreen, is minimized/closed, or loses foreground status. Ordinary maximized windows keep the indicator visible. Foreground, geometry, and window lifecycle events drive this behavior without polling; desktop shortcuts remain active while hidden.
 

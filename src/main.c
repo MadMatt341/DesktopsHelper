@@ -24,6 +24,8 @@
 static HWND widget;
 static HFONT regularFont, boldFont;
 static HBRUSH background;
+static COLORREF textColor, mutedColor, selectedColor, hoverColor, accentColor;
+static int hovered = -1;
 static int current = -1, cell = 32, height = 32;
 static BOOL aboveTaskbar;
 static UINT taskbarCreated;
@@ -124,11 +126,27 @@ static void addTray(void) {
     Shell_NotifyIconW(NIM_ADD, &tray);
 }
 
+static void appearance(void) {
+    DWORD light=0, size=sizeof(light);
+    RegGetValueW(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        L"SystemUsesLightTheme",RRF_RT_REG_DWORD,NULL,&light,&size);
+    HIGHCONTRASTW hc={.cbSize=sizeof(hc)};
+    BOOL contrast=SystemParametersInfoW(SPI_GETHIGHCONTRAST,sizeof(hc),&hc,0) && (hc.dwFlags&HCF_HIGHCONTRASTON);
+    COLORREF base=contrast ? GetSysColor(COLOR_WINDOW) : light ? RGB(243,243,243) : RGB(32,32,32);
+    textColor=contrast ? GetSysColor(COLOR_WINDOWTEXT) : light ? RGB(24,24,24) : RGB(250,250,250);
+    mutedColor=contrast ? textColor : light ? RGB(91,91,91) : RGB(180,180,180);
+    selectedColor=contrast ? base : light ? RGB(225,225,225) : RGB(53,53,53);
+    hoverColor=contrast ? base : light ? RGB(232,232,232) : RGB(45,45,45);
+    accentColor=contrast ? textColor : light ? RGB(0,95,184) : RGB(96,205,255);
+    HBRUSH next=CreateSolidBrush(base);
+    if(next) { if(background) DeleteObject(background); background=next; }
+}
+
 static void position(void) {
     MONITORINFO mi = {.cbSize = sizeof(mi)};
     GetMonitorInfoW(MonitorFromPoint((POINT){0,0}, MONITOR_DEFAULTTOPRIMARY), &mi);
     UINT dpi = GetDpiForWindow(widget);
-    cell = MulDiv(32, dpi, 96); height = MulDiv(32, dpi, 96);
+    cell = MulDiv(30, dpi, 96); height = MulDiv(32, dpi, 96);
     int margin = MulDiv(8, dpi, 96);
     APPBARDATA bar = {.cbSize = sizeof(bar)};
     int x = mi.rcMonitor.left + margin, y = mi.rcWork.bottom - height - margin;
@@ -137,11 +155,14 @@ static void position(void) {
         y = bar.rc.top + ((bar.rc.bottom - bar.rc.top) - height) / 2;
     }
     SetWindowPos(widget, HWND_TOPMOST, x, y, cell * 5, height, SWP_NOACTIVATE);
+    int corner=MulDiv(8,dpi,96);
+    HRGN region=CreateRoundRectRgn(0,0,cell*5+1,height+1,corner,corner);
+    if(region && !SetWindowRgn(widget,region,TRUE)) DeleteObject(region);
     HFONT oldRegular = regularFont, oldBold = boldFont;
-    regularFont = CreateFontW(-MulDiv(15, dpi, 96),0,0,0,FW_NORMAL,FALSE,FALSE,FALSE,
-        DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,DEFAULT_PITCH,L"Segoe UI");
-    boldFont = CreateFontW(-MulDiv(15, dpi, 96),0,0,0,FW_BOLD,FALSE,FALSE,FALSE,
-        DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,DEFAULT_PITCH,L"Segoe UI");
+    regularFont = CreateFontW(-MulDiv(13, dpi, 96),0,0,0,FW_NORMAL,FALSE,FALSE,FALSE,
+        DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,FIXED_PITCH | FF_MODERN,L"Consolas");
+    boldFont = CreateFontW(-MulDiv(13, dpi, 96),0,0,0,FW_BOLD,FALSE,FALSE,FALSE,
+        DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,FIXED_PITCH | FF_MODERN,L"Consolas");
     if (oldRegular) DeleteObject(oldRegular);
     if (oldBold) DeleteObject(oldBold);
     InvalidateRect(widget, NULL, FALSE);
@@ -216,25 +237,47 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         InterlockedExchange(&visibilityPending, 0);
         ensureVisible(); return 0;
     case WM_MOUSEACTIVATE: return MA_NOACTIVATE;
+    case WM_MOUSEMOVE: {
+        int next=GET_X_LPARAM(lp)/cell;
+        if(next<0 || next>=5) next=-1;
+        if(hovered<0 && next>=0) {
+            TRACKMOUSEEVENT tracking={.cbSize=sizeof(tracking),.dwFlags=TME_LEAVE,.hwndTrack=hwnd};
+            TrackMouseEvent(&tracking);
+        }
+        if(next!=hovered) { hovered=next; InvalidateRect(hwnd,NULL,FALSE); }
+        return 0;
+    }
+    case WM_MOUSELEAVE: hovered=-1; InvalidateRect(hwnd,NULL,FALSE); return 0;
     case WM_LBUTTONUP: service_submit(GET_X_LPARAM(lp) / cell, FALSE, NULL); return 0;
     case WM_CONTEXTMENU: menu(); return 0;
     case TRAY_MESSAGE: if (lp == WM_RBUTTONUP || lp == WM_CONTEXTMENU) menu(); return 0;
-    case WM_DPICHANGED: case WM_DISPLAYCHANGE: case WM_SETTINGCHANGE: position(); return 0;
+    case WM_THEMECHANGED: case WM_SYSCOLORCHANGE: case WM_SETTINGCHANGE:
+        appearance(); position(); return 0;
+    case WM_DPICHANGED: case WM_DISPLAYCHANGE: position(); return 0;
     case WM_ERASEBKGND: return 1;
     case WM_PAINT: {
         PAINTSTRUCT ps; HDC dc = BeginPaint(hwnd, &ps); RECT rect; GetClientRect(hwnd, &rect);
         FillRect(dc, &rect, background); SetBkMode(dc, TRANSPARENT);
         HGDIOBJ old = SelectObject(dc, regularFont);
+        HGDIOBJ oldBrush=SelectObject(dc,GetStockObject(DC_BRUSH));
+        HGDIOBJ oldPen=SelectObject(dc,GetStockObject(NULL_PEN));
+        int inset=MulDiv(3,GetDpiForWindow(hwnd),96);
         for (int i = 0; i < 5; ++i) {
             RECT r = {i * cell, 0, (i + 1) * cell, height}; wchar_t digit[] = {(wchar_t)(L'1' + i), 0};
+            if(i==current || i==hovered) {
+                SetDCBrushColor(dc,i==current ? selectedColor : hoverColor);
+                RoundRect(dc,r.left+inset,inset,r.right-inset,height-inset,inset*2,inset*2);
+            }
             SelectObject(dc, i == current ? boldFont : regularFont);
-            SetTextColor(dc, i == current ? RGB(255,255,255) : RGB(166,173,185));
+            SetTextColor(dc, i == current || i==hovered ? textColor : mutedColor);
             DrawTextW(dc, digit, 1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
             if (i == current) {
-                RECT line = {r.left + cell/3, height - 4, r.right - cell/3, height - 2};
-                SetDCBrushColor(dc, RGB(132,182,255)); FillRect(dc, &line, GetStockObject(DC_BRUSH));
+                SetDCBrushColor(dc,accentColor);
+                RoundRect(dc,r.left+cell/3,height-inset*2,r.right-cell/3,height-inset,
+                    inset,inset);
             }
         }
+        SelectObject(dc,oldPen); SelectObject(dc,oldBrush);
         SelectObject(dc, old); EndPaint(hwnd, &ps); return 0;
     }
     case WM_DESTROY:
@@ -264,7 +307,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
     if (FAILED(hr)) { CloseHandle(mutex); return 1; }
     aboveTaskbar = wcsstr(command, L"--above-taskbar") != NULL;
-    background = CreateSolidBrush(RGB(28,31,38));
+    appearance();
     WNDCLASSW wc = {.lpfnWndProc = windowProc, .hInstance = instance, .hCursor = LoadCursorW(NULL, IDC_HAND), .lpszClassName = className};
     RegisterClassW(&wc); taskbarCreated = RegisterWindowMessageW(L"TaskbarCreated");
     widget = CreateWindowExW(WS_EX_TOPMOST | WS_EX_APPWINDOW, className, L"Desktops Helper", WS_POPUP,
