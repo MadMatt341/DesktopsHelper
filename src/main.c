@@ -303,9 +303,17 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
     diagnostics_start();
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
     HANDLE mutex = CreateMutexW(NULL, FALSE, L"Local\\DesktopsHelper.Singleton");
-    if (!mutex || GetLastError() == ERROR_ALREADY_EXISTS) { if (mutex) CloseHandle(mutex); return 0; }
+    if (!mutex) return 1;
+    // Retained handles can keep a mutex alive after its process exits.
+    // Own it for the UI thread's lifetime instead of testing existence.
+    DWORD lockResult = WaitForSingleObject(mutex, 0);
+    if (lockResult != WAIT_OBJECT_0 && lockResult != WAIT_ABANDONED) {
+        CloseHandle(mutex); return lockResult == WAIT_TIMEOUT ? 0 : 1;
+    }
+    // Older builds created the mutex without owning it.
+    if (FindWindowW(className, NULL)) { ReleaseMutex(mutex); CloseHandle(mutex); return 0; }
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-    if (FAILED(hr)) { CloseHandle(mutex); return 1; }
+    if (FAILED(hr)) { ReleaseMutex(mutex); CloseHandle(mutex); return 1; }
     aboveTaskbar = wcsstr(command, L"--above-taskbar") != NULL;
     appearance();
     WNDCLASSW wc = {.lpfnWndProc = windowProc, .hInstance = instance, .hCursor = LoadCursorW(NULL, IDC_HAND), .lpszClassName = className};
@@ -338,5 +346,5 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
     DeleteObject(regularFont); DeleteObject(boldFont); DeleteObject(background);
     if (taskbar) ITaskbarList_Release(taskbar);
     // The adapter owns worker threads; process exit unloads it after unsubscription.
-    CoUninitialize(); CloseHandle(mutex); return 0;
+    CoUninitialize(); ReleaseMutex(mutex); CloseHandle(mutex); return 0;
 }

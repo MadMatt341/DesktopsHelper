@@ -19,6 +19,8 @@ The widget overlays the bottom-left taskbar area. It listens for foreground and 
 
 Exiting restores normal Windows shortcuts. There is no automatic startup registration.
 
+Only one helper runs per Windows session. It owns a mutex while running, so a retained mutex handle from an exited process does not prevent restarting it. A running older build is also detected by its widget window.
+
 ## Build
 
 Requires an x64 MinGW-w64 GCC toolchain on PATH and PowerShell:
