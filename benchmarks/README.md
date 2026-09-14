@@ -1,6 +1,8 @@
 # Performance contract
 
-Current event-driven build (`baseline-event-driven-final.json`, schema 2): **128.2 ms startup**, **19.30 MiB peak working set**, **2.71 MiB peak private memory**, and **0 ms measured CPU-time increase over the two-minute sample**. All resource budgets passed, exit code was 0, and no forced termination was required. This remains a single warm-start sample; the earlier files below retain the development history and their respective hashes.
+Native mode has separate [hardening and validation evidence](native-hardening-validation.md). Run `scripts/benchmark.ps1 -NativeTaskbar` for paired Explorer/helper samples, and `scripts/summarize-native-benchmarks.ps1` for three compatible runs. The summarizer rejects mixed binary/OS identities and preserves failed runs rather than hiding them behind a median. The overlay baselines below apply only to their recorded binaries.
+
+Retained event-driven overlay baseline (`baseline-event-driven-final.json`, schema 2): **128.2 ms startup**, **19.30 MiB peak working set**, **2.71 MiB peak private memory**, and **0 ms measured CPU-time increase over the two-minute sample**. All resource budgets passed, exit code was 0, and no forced termination was required. This remains a single warm-start sample; the earlier files below retain the development history and their respective hashes.
 
 First retained baseline (`baseline-idle.json`, Windows 11 26200.9445): **151.6 ms startup**, **21.34 MiB peak working set**, **2.87 MiB peak private memory**, **0 ms CPU-time increase over 60.7 seconds**. All four budgets passed. This is one warm-start sample, not a multi-run median.
 

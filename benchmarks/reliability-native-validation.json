@@ -1,0 +1,150 @@
+{
+  "timestampUtc": "2026-09-14T10:37:34.0082758Z",
+  "exeSha256": "3E7AC73A340C6A543B96BD88A84AF225A0DDCAC0B23AEB6064E9C74D02F055E2",
+  "adapterSha256": "5CC8E8905A04A2E14B331A4E974F41AE01FE20F1D276BB06F547FA0DC5BFEAFC",
+  "inputPolicy": "Input policy: 9 cases passed",
+  "adapter": {
+    "desktopCount": 5,
+    "currentDesktop": 2,
+    "failures": 0,
+    "notifications": 6,
+    "switchAndNotificationMs": [
+      59.322,
+      45.454,
+      31.456,
+      29.191,
+      29.666
+    ],
+    "moveAndVerifyMs": [
+      4.587,
+      2.447,
+      2.581,
+      3.142,
+      3.323
+    ]
+  },
+  "passed": true,
+  "topology": {
+    "topologyCases": 2,
+    "failures": 0,
+    "desktopCountRestored": true,
+    "focusEstablished": true
+  },
+  "shortcutRuns": [
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    }
+  ],
+  "reconnect": "Reconnect event passed",
+  "nativeDllSha256": "B64B65B4B3F8661FC36206C51438D4360740C48BEB489653CD2F5E79F9C30880",
+  "nativeLifecycle": [
+    "rollback stage 1 and remount: PASS",
+    "rollback stage 2 and remount: PASS",
+    "rollback stage 3 and remount: PASS",
+    "rollback stage 4 and remount: PASS",
+    "rollback stage 5 and remount: PASS",
+    "rollback stage 6 and remount: PASS",
+    "rollback stage 7 and remount: PASS",
+    "rollback stage 8 and remount: PASS",
+    "rollback stage 9 and remount: PASS",
+    "rollback stage 10 and remount: PASS",
+    "rollback stage 11 and remount: PASS",
+    "rollback stage 12 and remount: PASS",
+    "attach/remove cycle 10: PASS",
+    "attach/remove cycle 20: PASS",
+    "attach/remove cycle 30: PASS",
+    "attach/remove cycle 40: PASS",
+    "attach/remove cycle 50: PASS",
+    "attach/remove cycle 60: PASS",
+    "attach/remove cycle 70: PASS",
+    "attach/remove cycle 80: PASS",
+    "attach/remove cycle 90: PASS",
+    "attach/remove cycle 100: PASS",
+    "abrupt owner exit removes strip: PASS"
+  ],
+  "nativeButtons": [
+    "native click 1: PASS (hitTaskbar=1)",
+    "native click 2: PASS (hitTaskbar=1)",
+    "native click 3: PASS (hitTaskbar=1)",
+    "native click 4: PASS (hitTaskbar=1)",
+    "native click 5: PASS (hitTaskbar=1)",
+    "invalid IPC requests ignored: PASS",
+    "starting desktop restored: PASS",
+    "floating overlay hidden: PASS",
+    "overlay event subscriptions suspended: PASS"
+  ],
+  "nativeRemove": "Native remove result=1.",
+  "nativeFallbackVisibility": [
+    "visible=1 iconic=0 cloaked=0 rect=8,1400,158,1432 hitWidget=1",
+    "coveringClass=DesktopsHelper.Widget"
+  ],
+  "nativeFallbackFullscreen": [
+    "windowed: PASS",
+    "maximized: PASS",
+    "fullscreen without focus change: PASS",
+    "exit fullscreen without focus change: PASS",
+    "reenter fullscreen: PASS",
+    "minimize fullscreen: PASS",
+    "restore fullscreen: PASS",
+    "close fullscreen: PASS"
+  ],
+  "nativeReattach": "Native taskbar buttons attached.",
+  "threadBasePriorities": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "exitCode": 0
+}

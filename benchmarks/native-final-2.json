@@ -1,0 +1,1867 @@
+﻿{
+    "schemaVersion":  2,
+    "timestampUtc":  "2026-09-14T10:42:56.8079970Z",
+    "scenario":  "paired-native-taskbar",
+    "osBuild":  "26200.9445",
+    "logicalProcessors":  24,
+    "exeSha256":  "3E7AC73A340C6A543B96BD88A84AF225A0DDCAC0B23AEB6064E9C74D02F055E2",
+    "adapterSha256":  "5CC8E8905A04A2E14B331A4E974F41AE01FE20F1D276BB06F547FA0DC5BFEAFC",
+    "startupToReadyMs":  77.68480000000001,
+    "warmupSeconds":  5,
+    "elapsedSeconds":  60.9951181,
+    "cpuMs":  0,
+    "cpuPercentOfOneCore":  0,
+    "workingSetPeakMiB":  19.1328125,
+    "privatePeakMiB":  2.6015625,
+    "budgets":  {
+                    "cpuPercentOfOneCore":  0.1,
+                    "privatePeakMiB":  20,
+                    "explorerIncrementalCpuPercent":  0.1,
+                    "nativeStartupToReadyMs":  2000,
+                    "workingSetPeakMiB":  30,
+                    "startupToReadyMs":  1000,
+                    "explorerIncrementalMeanPrivateMiB":  10
+                },
+    "passed":  true,
+    "samples":  [
+                    {
+                        "elapsedSeconds":  1.0140646,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  2.0341134,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  3.0486705,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  4.0587763,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  5.0739516999999994,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  6.0918813,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  7.1112801999999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  8.1290274,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  9.1467476999999988,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2727936,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  10.1643641,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  11.186401499999999,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  12.207205,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  13.219103899999999,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  14.241630899999999,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  15.259325299999999,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  16.2724588,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  17.2880958,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  18.303368,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  19.321623,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  20.340458899999998,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  21.3529297,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  22.366703599999997,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  23.3872842,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  24.402739399999998,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20062208,
+                        "privateBytes":  2662400,
+                        "handles":  206,
+                        "threads":  11,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  25.422556,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20008960,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  26.4386016,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20008960,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  27.4595785,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20008960,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  28.478627699999997,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  29.4867131,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  30.5007697,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  31.520097,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  32.5283328,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  33.5421358,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  34.5596876,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  35.577686799999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  36.5987201,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  37.6133179,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  38.6312034,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  39.653152899999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  40.6727333,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  41.6930188,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  42.7111795,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  43.7269419,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  44.739891199999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  45.755236,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  46.771614,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  47.7916142,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  48.810164699999994,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  49.823706099999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  50.8450987,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  51.8605659,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  52.873826799999996,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  53.8874466,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  54.897785199999994,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  55.9173249,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  56.9293966,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  57.9439819,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  58.9553253,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  59.970388699999994,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    },
+                    {
+                        "elapsedSeconds":  60.987882299999995,
+                        "cpuTotalMs":  46.875,
+                        "workingSetBytes":  20013056,
+                        "privateBytes":  2564096,
+                        "handles":  205,
+                        "threads":  8,
+                        "gdiObjects":  4,
+                        "userObjects":  8
+                    }
+                ],
+    "nativeDllSha256":  "B64B65B4B3F8661FC36206C51438D4360740C48BEB489653CD2F5E79F9C30880",
+    "controllerSha256":  "63B9E2416B41EA6189BCFAF51936E9F288A2173872F612BDE693C9D869BCFD2C",
+    "taskbarDllSha256":  "5DCEEA036939ACB4E43B801A7A63530F328EDAD164741E6529D3D32E9B1C5866",
+    "nativeStartupToReadyMs":  113.376,
+    "explorer":  {
+                     "pid":  16512,
+                     "baselineCpuPercent":  0.4365875354409024,
+                     "nativeCpuPercent":  0.30741830522085295,
+                     "incrementalCpuPercent":  -0.12916923022004945,
+                     "incrementalMeanPrivateMiB":  -2.0178662909835907,
+                     "baseline":  [
+                                      {
+                                          "elapsedSeconds":  0.0034178,
+                                          "cpuTotalMs":  79968.75,
+                                          "workingSetBytes":  260472832,
+                                          "privateBytes":  360108032,
+                                          "handles":  3983,
+                                          "threads":  245,
+                                          "gdiObjects":  161,
+                                          "userObjects":  320
+                                      },
+                                      {
+                                          "elapsedSeconds":  1.0226043999999999,
+                                          "cpuTotalMs":  79968.75,
+                                          "workingSetBytes":  260472832,
+                                          "privateBytes":  360108032,
+                                          "handles":  3983,
+                                          "threads":  245,
+                                          "gdiObjects":  161,
+                                          "userObjects":  320
+                                      },
+                                      {
+                                          "elapsedSeconds":  2.0359875,
+                                          "cpuTotalMs":  79984.375,
+                                          "workingSetBytes":  260472832,
+                                          "privateBytes":  360108032,
+                                          "handles":  3983,
+                                          "threads":  245,
+                                          "gdiObjects":  161,
+                                          "userObjects":  320
+                                      },
+                                      {
+                                          "elapsedSeconds":  3.0539544,
+                                          "cpuTotalMs":  79984.375,
+                                          "workingSetBytes":  260472832,
+                                          "privateBytes":  360108032,
+                                          "handles":  3983,
+                                          "threads":  245,
+                                          "gdiObjects":  161,
+                                          "userObjects":  320
+                                      },
+                                      {
+                                          "elapsedSeconds":  4.0646844,
+                                          "cpuTotalMs":  79984.375,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  5.0808027,
+                                          "cpuTotalMs":  80000,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  6.0927263,
+                                          "cpuTotalMs":  80000,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  7.1086538999999993,
+                                          "cpuTotalMs":  80000,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  8.1231415,
+                                          "cpuTotalMs":  80000,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  9.1347793,
+                                          "cpuTotalMs":  80000,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  10.1515244,
+                                          "cpuTotalMs":  80031.25,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  11.167355899999999,
+                                          "cpuTotalMs":  80031.25,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  12.184512699999999,
+                                          "cpuTotalMs":  80031.25,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  13.1973411,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  14.2108873,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  15.2239677,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  16.2288455,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  17.2374725,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  18.2415379,
+                                          "cpuTotalMs":  80046.875,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  19.2555481,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  20.2710948,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  21.2890786,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  22.301302399999997,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  23.3177229,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260399104,
+                                          "privateBytes":  359952384,
+                                          "handles":  3969,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  24.334446,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  25.3491587,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  26.3635995,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  27.3791652,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  28.3945443,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  29.4096381,
+                                          "cpuTotalMs":  80062.5,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3970,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  318
+                                      },
+                                      {
+                                          "elapsedSeconds":  30.4248923,
+                                          "cpuTotalMs":  80093.75,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  31.4392681,
+                                          "cpuTotalMs":  80093.75,
+                                          "workingSetBytes":  260403200,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  32.4527703,
+                                          "cpuTotalMs":  80109.375,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  33.4658987,
+                                          "cpuTotalMs":  80109.375,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  34.480413399999996,
+                                          "cpuTotalMs":  80125,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  35.494028899999996,
+                                          "cpuTotalMs":  80140.625,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  36.513078,
+                                          "cpuTotalMs":  80156.25,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  37.530809,
+                                          "cpuTotalMs":  80156.25,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  38.547992,
+                                          "cpuTotalMs":  80171.875,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  39.5642561,
+                                          "cpuTotalMs":  80171.875,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  40.5721676,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  41.5899905,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  42.6042809,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  43.618156,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  44.6234842,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  260161536,
+                                          "privateBytes":  359952384,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  317
+                                      },
+                                      {
+                                          "elapsedSeconds":  45.6398799,
+                                          "cpuTotalMs":  80187.5,
+                                          "workingSetBytes":  256778240,
+                                          "privateBytes":  356208640,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  46.6546308,
+                                          "cpuTotalMs":  80203.125,
+                                          "workingSetBytes":  256868352,
+                                          "privateBytes":  356347904,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  47.6685155,
+                                          "cpuTotalMs":  80203.125,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  48.6864207,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  49.691254,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  50.7092599,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  51.723341999999995,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  52.739328099999994,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  53.751070399999996,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  256921600,
+                                          "privateBytes":  356409344,
+                                          "handles":  3968,
+                                          "threads":  243,
+                                          "gdiObjects":  161,
+                                          "userObjects":  316
+                                      },
+                                      {
+                                          "elapsedSeconds":  54.7645073,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356483072,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  55.778234899999994,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356483072,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  56.7933089,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356511744,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  57.808399599999994,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356511744,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  58.825508299999996,
+                                          "cpuTotalMs":  80218.75,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356511744,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  59.8328966,
+                                          "cpuTotalMs":  80234.375,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356511744,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      },
+                                      {
+                                          "elapsedSeconds":  60.844595899999995,
+                                          "cpuTotalMs":  80234.375,
+                                          "workingSetBytes":  257040384,
+                                          "privateBytes":  356511744,
+                                          "handles":  3956,
+                                          "threads":  242,
+                                          "gdiObjects":  161,
+                                          "userObjects":  314
+                                      }
+                                  ],
+                     "native":  [
+                                    {
+                                        "elapsedSeconds":  0.0001379,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257527808,
+                                        "privateBytes":  356925440,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  1.018985,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257527808,
+                                        "privateBytes":  356925440,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  2.0380632999999997,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257527808,
+                                        "privateBytes":  356925440,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  3.0525577,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257527808,
+                                        "privateBytes":  356925440,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  4.0626099999999994,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257527808,
+                                        "privateBytes":  356925440,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  5.0778815,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257531904,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  6.0959981999999995,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257531904,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  7.1152666999999994,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257531904,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  8.1329091,
+                                        "cpuTotalMs":  80312.5,
+                                        "workingSetBytes":  257531904,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  9.1506090999999987,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257531904,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  10.168403,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257556480,
+                                        "privateBytes":  356929536,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  11.1902718,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257560576,
+                                        "privateBytes":  356958208,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  12.2111451,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257560576,
+                                        "privateBytes":  356958208,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  13.2230227,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257560576,
+                                        "privateBytes":  356958208,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  14.245503999999999,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257560576,
+                                        "privateBytes":  356958208,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  15.2631511,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257560576,
+                                        "privateBytes":  356958208,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  16.276438799999998,
+                                        "cpuTotalMs":  80328.125,
+                                        "workingSetBytes":  257585152,
+                                        "privateBytes":  356982784,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  17.292031599999998,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257585152,
+                                        "privateBytes":  356982784,
+                                        "handles":  3993,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  18.3073112,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257589248,
+                                        "privateBytes":  356986880,
+                                        "handles":  3994,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  19.3254915,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257589248,
+                                        "privateBytes":  356986880,
+                                        "handles":  3994,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  20.345973,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257589248,
+                                        "privateBytes":  356986880,
+                                        "handles":  3994,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  21.3569288,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257589248,
+                                        "privateBytes":  356986880,
+                                        "handles":  3994,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  22.3706918,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257593344,
+                                        "privateBytes":  356986880,
+                                        "handles":  3994,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  23.3911727,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257593344,
+                                        "privateBytes":  356986880,
+                                        "handles":  3995,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  24.4067781,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257593344,
+                                        "privateBytes":  356986880,
+                                        "handles":  3995,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  321
+                                    },
+                                    {
+                                        "elapsedSeconds":  25.426400299999997,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257601536,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  26.4424291,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257601536,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  27.463524099999997,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  28.482685999999998,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  29.490638399999998,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  30.5048484,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  31.524177599999998,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  32.532173,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  33.5460737,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  34.5636764,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  35.581621999999996,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  36.6027124,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  37.6174719,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  38.635284299999995,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  39.657312399999995,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  40.6775534,
+                                        "cpuTotalMs":  80343.75,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  41.6971245,
+                                        "cpuTotalMs":  80390.625,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  42.7154342,
+                                        "cpuTotalMs":  80406.25,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  43.7309781,
+                                        "cpuTotalMs":  80406.25,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  44.743750399999996,
+                                        "cpuTotalMs":  80421.875,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  45.7591409,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  46.7757437,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  47.7956976,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257359872,
+                                        "privateBytes":  356937728,
+                                        "handles":  3987,
+                                        "threads":  244,
+                                        "gdiObjects":  164,
+                                        "userObjects":  319
+                                    },
+                                    {
+                                        "elapsedSeconds":  48.8141403,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  49.8275545,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  50.8490712,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  51.8645278,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  52.878009899999995,
+                                        "cpuTotalMs":  80437.5,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  53.891439999999996,
+                                        "cpuTotalMs":  80468.75,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  54.9015926,
+                                        "cpuTotalMs":  80468.75,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3972,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  55.9212232,
+                                        "cpuTotalMs":  80468.75,
+                                        "workingSetBytes":  257323008,
+                                        "privateBytes":  356782080,
+                                        "handles":  3971,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  56.933241699999996,
+                                        "cpuTotalMs":  80484.375,
+                                        "workingSetBytes":  257376256,
+                                        "privateBytes":  356843520,
+                                        "handles":  3971,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  57.9479863,
+                                        "cpuTotalMs":  80484.375,
+                                        "workingSetBytes":  257376256,
+                                        "privateBytes":  356843520,
+                                        "handles":  3971,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  58.9592725,
+                                        "cpuTotalMs":  80484.375,
+                                        "workingSetBytes":  257376256,
+                                        "privateBytes":  356843520,
+                                        "handles":  3971,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  59.9743025,
+                                        "cpuTotalMs":  80484.375,
+                                        "workingSetBytes":  257376256,
+                                        "privateBytes":  356843520,
+                                        "handles":  3971,
+                                        "threads":  242,
+                                        "gdiObjects":  164,
+                                        "userObjects":  317
+                                    },
+                                    {
+                                        "elapsedSeconds":  60.9919516,
+                                        "cpuTotalMs":  80500,
+                                        "workingSetBytes":  257925120,
+                                        "privateBytes":  357289984,
+                                        "handles":  3998,
+                                        "threads":  245,
+                                        "gdiObjects":  164,
+                                        "userObjects":  322
+                                    }
+                                ]
+                 },
+    "qualificationNote":  "Single paired observation; repeat three times quietly and compare medians/spread. Explorer includes unrelated shell activity. Resident DLLs remain loaded between samples.",
+    "forcedTermination":  false,
+    "exitCode":  0,
+    "failure":  null
+}

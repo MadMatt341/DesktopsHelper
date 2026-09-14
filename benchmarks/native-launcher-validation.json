@@ -1,0 +1,14 @@
+[
+  {
+    "scenario": "deadline",
+    "elapsedMs": 14965.2888,
+    "controllerExited": true,
+    "passed": true
+  },
+  {
+    "scenario": "owner-crash",
+    "elapsedMs": 4.9615,
+    "controllerExited": true,
+    "passed": true
+  }
+]

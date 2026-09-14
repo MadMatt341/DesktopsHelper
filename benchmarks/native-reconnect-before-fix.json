@@ -1,0 +1,85 @@
+{
+  "timestampUtc": "2026-09-14T10:29:49.7816617Z",
+  "exeSha256": "35A9FC52B199FA7E183459D5EF4790E7F9EF2A56B184354078938D0F54B12D11",
+  "adapterSha256": "5CC8E8905A04A2E14B331A4E974F41AE01FE20F1D276BB06F547FA0DC5BFEAFC",
+  "inputPolicy": "Input policy: 9 cases passed",
+  "adapter": {
+    "desktopCount": 5,
+    "currentDesktop": 2,
+    "failures": 0,
+    "notifications": 6,
+    "switchAndNotificationMs": [
+      58.958,
+      62.016,
+      31.413,
+      31.1,
+      29.72
+    ],
+    "moveAndVerifyMs": [
+      4.266,
+      2.539,
+      3.022,
+      2.95,
+      3.426
+    ]
+  },
+  "passed": false,
+  "topology": {
+    "topologyCases": 2,
+    "failures": 0,
+    "desktopCountRestored": true,
+    "focusEstablished": true
+  },
+  "shortcutRuns": [
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    },
+    {
+      "shortcutsTested": 10,
+      "failures": 0,
+      "returnedToDesktop": 2
+    }
+  ]
+}

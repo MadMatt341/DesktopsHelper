@@ -1,0 +1,73 @@
+{
+  "timestampUtc": "2026-09-14T10:45:16.9966779Z",
+  "exeSha256": "3E7AC73A340C6A543B96BD88A84AF225A0DDCAC0B23AEB6064E9C74D02F055E2",
+  "nativeDllSha256": "B64B65B4B3F8661FC36206C51438D4360740C48BEB489653CD2F5E79F9C30880",
+  "controllerSha256": "63B9E2416B41EA6189BCFAF51936E9F288A2173872F612BDE693C9D869BCFD2C",
+  "taskbarDllSha256": "5DCEEA036939ACB4E43B801A7A63530F328EDAD164741E6529D3D32E9B1C5866",
+  "osBuild": "26200.9445",
+  "runFiles": [
+    "benchmarks/native-final-1.json",
+    "benchmarks/native-final-2.json",
+    "benchmarks/native-final-3.json"
+  ],
+  "metrics": {
+    "helperCpuPercent": {
+      "median": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "budget": 0.1,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "helperWorkingMiB": {
+      "median": 19.13671875,
+      "minimum": 19.1328125,
+      "maximum": 19.1875,
+      "budget": 30.0,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "helperPrivateMiB": {
+      "median": 2.6015625,
+      "minimum": 2.5859375,
+      "maximum": 2.65625,
+      "budget": 20.0,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "helperReadyMs": {
+      "median": 77.2154,
+      "minimum": 77.2089,
+      "maximum": 77.68480000000001,
+      "budget": 1000.0,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "nativeReadyMs": {
+      "median": 113.376,
+      "minimum": 113.16640000000001,
+      "maximum": 113.39590000000001,
+      "budget": 2000.0,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "explorerIncrementalCpuPercent": {
+      "median": -0.05156195110533529,
+      "minimum": -0.12916923022004945,
+      "maximum": 0.07690713984638935,
+      "budget": 0.1,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    },
+    "explorerIncrementalMeanPrivateMiB": {
+      "median": -0.12813780737707248,
+      "minimum": -2.0178662909835907,
+      "maximum": 0.08491290983607769,
+      "budget": 10.0,
+      "medianPassed": true,
+      "allSamplesPassed": true
+    }
+  },
+  "allRunsPassed": true,
+  "note": "Observed paired runs on this workstation. Explorer contains unrelated shell activity; negative differences do not imply a resource saving. Pinned DLLs were resident in the baseline. This is not a cold-start or universal compatibility qualification."
+}

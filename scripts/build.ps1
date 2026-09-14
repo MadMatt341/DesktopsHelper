@@ -1,12 +1,18 @@
+param([switch]$NativeTaskbar)
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $expected = (Get-Content vendor/adapter.sha256).Trim()
 if ((Get-FileHash vendor/VirtualDesktopAccessor.dll).Hash -ne $expected) { throw 'Adapter SHA256 mismatch' }
 New-Item -ItemType Directory -Force build/release | Out-Null
-gcc -std=c11 -O2 -Wall -Wextra -Werror -municode -mwindows -s src/main.c src/service.c src/input.c src/diagnostics.c -o build/release/DesktopsHelper.exe -luser32 -lgdi32 -lshell32 -lole32 -luuid -ladvapi32
+gcc -std=c11 -O2 -Wall -Wextra -Werror -municode -mwindows -s src/main.c src/native_taskbar.c src/service.c src/input.c src/diagnostics.c -o build/release/DesktopsHelper.exe -luser32 -lgdi32 -lshell32 -lole32 -luuid -ladvapi32
 if ($LASTEXITCODE) { throw 'Build failed' }
 Copy-Item vendor/VirtualDesktopAccessor.dll build/release/
 Copy-Item vendor/LICENSE.VirtualDesktopAccessor.txt build/release/
+if($NativeTaskbar) {
+    & cmd /c scripts\build-taskbar-prototype.cmd
+    if($LASTEXITCODE) {throw 'Native taskbar build failed'}
+    Copy-Item build/taskbar-left/TaskbarPrototype.exe,build/taskbar-left/DesktopsHelper.TaskbarV4.dll build/release/
+}
 gcc -std=c11 -O2 -Wall -Wextra -Werror tests/integration.c -o build/release/integration.exe -luser32 -lole32
 if ($LASTEXITCODE) { throw 'Test build failed' }
 gcc -std=c11 -O2 -Wall -Wextra -Werror tests/shortcuts.c -o build/release/shortcuts.exe -luser32

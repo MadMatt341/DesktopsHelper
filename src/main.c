@@ -10,9 +10,11 @@
 #include <shobjidl.h>
 #include <windowsx.h>
 #include <shellapi.h>
+#include <wchar.h>
 #include "service.h"
 #include "input.h"
 #include "diagnostics.h"
+#include "native_taskbar.h"
 
 #define TRAY_MESSAGE (WM_APP + 2)
 #define CHECK_VISIBILITY (WM_APP + 4)
@@ -41,7 +43,29 @@ static void CALLBACK stackingChanged(HWINEVENTHOOK, DWORD, HWND, LONG, LONG, DWO
 static LONG visibilityPending;
 static const wchar_t *className = L"DesktopsHelper.Widget";
 
+static void stopOverlayMonitoring(void) {
+    if(foregroundEvents)UnhookWinEvent(foregroundEvents);
+    if(reorderEvents)UnhookWinEvent(reorderEvents);
+    if(geometryEvents)UnhookWinEvent(geometryEvents);
+    if(lifecycleEvents)UnhookWinEvent(lifecycleEvents);
+    foregroundEvents=reorderEvents=geometryEvents=lifecycleEvents=NULL;
+    observedThread=0;
+    RemovePropW(widget,L"DesktopsHelper.OverlayMonitoring");
+}
+
 static void ensureVisible(void) {
+    if(native_taskbar_active()){
+        stopOverlayMonitoring();
+        if(IsWindowVisible(widget))ShowWindow(widget,SW_HIDE);
+        return;
+    }
+    // Native XAML already follows the shell. Subscribe to stacking/fullscreen
+    // events only while the fallback overlay needs to manage its own visibility.
+    if(!foregroundEvents)foregroundEvents=SetWinEventHook(EVENT_SYSTEM_FOREGROUND,EVENT_SYSTEM_FOREGROUND,
+        NULL,stackingChanged,0,0,WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS);
+    if(!reorderEvents)reorderEvents=SetWinEventHook(EVENT_OBJECT_REORDER,EVENT_OBJECT_REORDER,
+        NULL,stackingChanged,0,0,WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS);
+    if(foregroundEvents && reorderEvents)SetPropW(widget,L"DesktopsHelper.OverlayMonitoring",(HANDLE)1);
     HWND active = GetForegroundWindow();
     lastForeground = active;
     DWORD activeThread = active ? GetWindowThreadProcessId(active,NULL) : 0;
@@ -193,7 +217,10 @@ static void updateService(void) {
     }
     if(state.error==SERVICE_CONNECT_ERROR && retries==5 && !state.pending)
         notify(L"Could not connect to Windows desktops. Shortcuts are released. Use Reconnect after Explorer is available.");
-    wasReady=state.ready; lastError=state.error; ensureVisible();
+    // Windows must see the fallback window while the adapter registers/pins its
+    // desktop view. Attach (and hide it) only after connection succeeds.
+    if(state.ready && !wasReady)native_taskbar_begin();
+    wasReady=state.ready; lastError=state.error; native_taskbar_publish();ensureVisible();
 }
 
 static void menu(void) {
@@ -207,11 +234,16 @@ static void menu(void) {
     DestroyMenu(m); PostMessageW(widget, WM_NULL, 0, 0);
     if (choice == ID_EXIT) DestroyWindow(widget);
     if (choice == ID_POSITION) { aboveTaskbar = !aboveTaskbar; position(); }
-    if (choice == ID_RETRY) { retries=0; service_connect(); updateService(); }
+    if (choice == ID_RETRY) { native_taskbar_detach();ensureVisible();retries=0;service_connect();updateService(); }
 }
 
 static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
+    if(native_taskbar_handle(msg,wp,lp)){ensureVisible();return 0;}
     if (taskbarCreated && msg == taskbarCreated) {
+        // Drop stale desktop COM subscriptions after a real Explorer replacement.
+        // The new helper waits for this process to exit before taking its mutex.
+        if(native_taskbar_restart_for_shell()){DestroyWindow(hwnd);return 0;}
+        native_taskbar_detach();
         addTray(); position();
         if (taskbar) ITaskbarList_DeleteTab(taskbar, hwnd);
         retries=0; service_connect(); updateService();
@@ -219,6 +251,7 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     }
     switch (msg) {
     case WM_TIMER:
+        if(wp==NATIVE_ATTACH_TIMER){native_taskbar_tick();ensureVisible();}
         if(wp==DEADLINE_TIMER) {
             KillTimer(hwnd,DEADLINE_TIMER);
             ServiceState state=service_state();
@@ -281,11 +314,9 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         SelectObject(dc, old); EndPaint(hwnd, &ps); return 0;
     }
     case WM_DESTROY:
-        if (foregroundEvents) UnhookWinEvent(foregroundEvents);
-        if (reorderEvents) UnhookWinEvent(reorderEvents);
-        if (geometryEvents) UnhookWinEvent(geometryEvents);
-        if (lifecycleEvents) UnhookWinEvent(lifecycleEvents);
+        stopOverlayMonitoring();
         KillTimer(hwnd,DEADLINE_TIMER); KillTimer(hwnd,RETRY_TIMER);
+        native_taskbar_stop();
         RemovePropW(hwnd,L"DesktopsHelper.Ready"); RemovePropW(hwnd,L"DesktopsHelper.Current");
         RemovePropW(hwnd,L"DesktopsHelper.Connection");
         if(!input_stop(2000) || !service_stop(2000)) {
@@ -300,6 +331,13 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show) {
     (void)prev; (void)show;
+    const wchar_t* waiting=wcsstr(command,L"--wait-for-pid=");
+    if(waiting){
+        DWORD pid=wcstoul(waiting+wcslen(L"--wait-for-pid="),NULL,10);
+        if(!pid || pid==GetCurrentProcessId())return 1;
+        HANDLE previous=OpenProcess(SYNCHRONIZE,FALSE,pid);
+        if(previous){DWORD result=WaitForSingleObject(previous,10000);CloseHandle(previous);if(result!=WAIT_OBJECT_0)return 1;}
+    }
     diagnostics_start();
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
     HANDLE mutex = CreateMutexW(NULL, FALSE, L"Local\\DesktopsHelper.Singleton");
@@ -321,6 +359,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
     widget = CreateWindowExW(WS_EX_TOPMOST | WS_EX_APPWINDOW, className, L"Desktops Helper", WS_POPUP,
         0,0,160,32,NULL,NULL,instance,NULL);
     if (!widget) return 1;
+    native_taskbar_init(widget,wcsstr(command,L"--native-taskbar")!=NULL);
     position();
     addTray();
     if (SUCCEEDED(CoCreateInstance(&CLSID_TaskbarList,NULL,CLSCTX_INPROC_SERVER,&IID_ITaskbarList,(void**)&taskbar)))
@@ -329,15 +368,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show)
         MessageBoxW(NULL,L"Could not start desktop helper threads.",L"Desktops Helper",MB_ICONERROR);
         DestroyWindow(widget); return 1;
     }
-    foregroundEvents = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
-        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-    reorderEvents = SetWinEventHook(EVENT_OBJECT_REORDER, EVENT_OBJECT_REORDER,
-        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-    geometryEvents = SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE,
-        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-    lifecycleEvents = SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_HIDE,
-        NULL, stackingChanged, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-    if(!foregroundEvents || !reorderEvents || !geometryEvents || !lifecycleEvents) {
+    if(!foregroundEvents || !reorderEvents) {
         MessageBoxW(NULL,L"Could not monitor taskbar visibility.",L"Desktops Helper",MB_ICONERROR);
         DestroyWindow(widget); return 1;
     }
