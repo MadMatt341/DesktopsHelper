@@ -12,8 +12,8 @@
 
 // Only the helper UI thread accesses this coordinator. The controller is
 // short-lived; neither highlighting nor owner lifetime uses an idle timer.
-static HWND nativeWidget,nativeControl;
-static BOOL nativeMode;
+static HWND nativeHost,nativeControl;
+static BOOL attaching;
 static UINT nativeRequest,nativeState;
 static HANDLE nativeLauncher,nativeJob;
 static ULONGLONG attachDeadline;
@@ -34,26 +34,26 @@ void native_taskbar_publish(void) {
     ServiceState state=service_state();
     unsigned value=state.ready?(state.current>=0 && state.current<5?(unsigned)state.current+1:6):0;
     if(value!=lastPublished){
-        if(PostMessageW(nativeControl,nativeState,value,(LPARAM)nativeWidget))lastPublished=value;
+        if(PostMessageW(nativeControl,nativeState,value,(LPARAM)nativeHost))lastPublished=value;
     }
 }
 void native_taskbar_tick(void) {
     HWND candidate=FindWindowExW(HWND_MESSAGE,NULL,DH_TASKBAR_CLASS,NULL);
     if(validNativeControl(candidate)){
-        nativeControl=candidate;lastPublished=UINT_MAX;native_taskbar_publish();ShowWindow(nativeWidget,SW_HIDE);
-        KillTimer(nativeWidget,NATIVE_ATTACH_TIMER);
+        nativeControl=candidate;lastPublished=UINT_MAX;native_taskbar_publish();
+        KillTimer(nativeHost,NATIVE_ATTACH_TIMER);attaching=FALSE;
         if(nativeLauncher){CloseHandle(nativeLauncher);nativeLauncher=NULL;}
         return;
     }
     if(GetTickCount64()>=attachDeadline){
-        KillTimer(nativeWidget,NATIVE_ATTACH_TIMER);
+        KillTimer(nativeHost,NATIVE_ATTACH_TIMER);attaching=FALSE;
         if(nativeJob)TerminateJobObject(nativeJob,ERROR_TIMEOUT);
         if(nativeLauncher){CloseHandle(nativeLauncher);nativeLauncher=NULL;}
         return;
     }
     if(nativeLauncher){if(WaitForSingleObject(nativeLauncher,0)==WAIT_TIMEOUT)return;CloseHandle(nativeLauncher);nativeLauncher=NULL;}
     // Do not start a five-second attempt without room in the overall deadline.
-    if(attachDeadline-GetTickCount64()<5500){KillTimer(nativeWidget,NATIVE_ATTACH_TIMER);return;}
+    if(attachDeadline-GetTickCount64()<5500){KillTimer(nativeHost,NATIVE_ATTACH_TIMER);attaching=FALSE;return;}
     wchar_t executable[MAX_PATH],command[MAX_PATH+32];
     DWORD length=GetModuleFileNameW(NULL,executable,ARRAYSIZE(executable));
     if(!length || length>=ARRAYSIZE(executable))return;
@@ -70,45 +70,42 @@ void native_taskbar_tick(void) {
     }
 }
 void native_taskbar_begin(void){
-    if(!nativeMode)return;
-    nativeControl=NULL;attachDeadline=GetTickCount64()+15000;SetTimer(nativeWidget,NATIVE_ATTACH_TIMER,1000,NULL);native_taskbar_tick();
+    nativeControl=NULL;attaching=TRUE;attachDeadline=GetTickCount64()+15000;SetTimer(nativeHost,NATIVE_ATTACH_TIMER,1000,NULL);native_taskbar_tick();
 }
 BOOL native_taskbar_restart_for_shell(void) {
     DWORD shellPid=0;GetWindowThreadProcessId(FindWindowW(L"Shell_TrayWnd",NULL),&shellPid);
-    if(!nativeMode || !shellPid || shellPid==nativeShellPid)return FALSE;
+    if(!shellPid || shellPid==nativeShellPid)return FALSE;
     wchar_t executable[MAX_PATH],command[MAX_PATH+96];
     DWORD length=GetModuleFileNameW(NULL,executable,ARRAYSIZE(executable));
     if(!length || length>=ARRAYSIZE(executable))return FALSE;
-    swprintf(command,ARRAYSIZE(command),L"\"%ls\" --native-taskbar --wait-for-pid=%lu",executable,GetCurrentProcessId());
+    swprintf(command,ARRAYSIZE(command),L"\"%ls\" --wait-for-pid=%lu",executable,GetCurrentProcessId());
     STARTUPINFOW startup={.cb=sizeof(startup)};PROCESS_INFORMATION child={0};
     if(!CreateProcessW(executable,command,NULL,NULL,FALSE,CREATE_NO_WINDOW,NULL,NULL,&startup,&child))return FALSE;
     CloseHandle(child.hThread);CloseHandle(child.hProcess);return TRUE;
 }
 
-
-void native_taskbar_init(HWND window,BOOL enabled) {
-    nativeWidget=window;nativeMode=enabled;
+void native_taskbar_init(HWND window) {
+    nativeHost=window;
     GetWindowThreadProcessId(FindWindowW(L"Shell_TrayWnd",NULL),&nativeShellPid);
     nativeRequest=RegisterWindowMessageW(DH_TASKBAR_REQUEST);
     nativeState=RegisterWindowMessageW(DH_TASKBAR_STATE);
-    if(enabled){
-        nativeJob=CreateJobObjectW(NULL,NULL);
-        JOBOBJECT_EXTENDED_LIMIT_INFORMATION limit={0};
-        limit.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
-        if(nativeJob && !SetInformationJobObject(nativeJob,JobObjectExtendedLimitInformation,&limit,sizeof(limit))){
-            CloseHandle(nativeJob);nativeJob=NULL;
-        }
+    nativeJob=CreateJobObjectW(NULL,NULL);
+    JOBOBJECT_EXTENDED_LIMIT_INFORMATION limit={0};
+    limit.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+    if(nativeJob && !SetInformationJobObject(nativeJob,JobObjectExtendedLimitInformation,&limit,sizeof(limit))){
+        CloseHandle(nativeJob);nativeJob=NULL;
     }
 }
 BOOL native_taskbar_active(void) {
     if(validNativeControl(nativeControl))return TRUE;
     nativeControl=NULL;return FALSE;
 }
+BOOL native_taskbar_pending(void) { return attaching; }
 BOOL native_taskbar_handle(UINT message,WPARAM wp,LPARAM lp) {
     if(!nativeRequest || message!=nativeRequest)return FALSE;
     HWND endpoint=(HWND)lp;
     if(wp==DH_TASKBAR_DETACH && endpoint==nativeControl){nativeControl=NULL;return TRUE;}
-    if(!nativeMode || wp>5 || !validNativeControl(endpoint))return TRUE;
+    if(wp>5 || !validNativeControl(endpoint))return TRUE;
     if(nativeControl!=endpoint || wp==DH_TASKBAR_SUBSCRIBE)lastPublished=UINT_MAX;
     nativeControl=endpoint;
     if(wp>=1)service_submit((int)wp-1,FALSE,NULL);
@@ -120,7 +117,8 @@ void native_taskbar_stop(void) {
     if(nativeJob){CloseHandle(nativeJob);nativeJob=NULL;}
 }
 void native_taskbar_detach(void) {
-    KillTimer(nativeWidget,NATIVE_ATTACH_TIMER);
+    attaching=FALSE;
+    KillTimer(nativeHost,NATIVE_ATTACH_TIMER);
     if(nativeJob)TerminateJobObject(nativeJob,ERROR_CANCELLED);
     if(nativeLauncher){CloseHandle(nativeLauncher);nativeLauncher=NULL;}
     if(validNativeControl(nativeControl)){

@@ -12,7 +12,6 @@ typedef struct {
     int (__cdecl *go)(int);
     int (__cdecl *move)(HWND, int);
     int (__cdecl *windowDesktop)(HWND);
-    int (__cdecl *pin)(HWND);
     int (__cdecl *isPinned)(HWND);
     int (__cdecl *subscribe)(HWND, UINT);
     void (__cdecl *unsubscribe)(HWND);
@@ -33,7 +32,7 @@ static int loadAdapter(Adapter *a) {
     LOAD(count, "GetDesktopCount"); LOAD(current, "GetCurrentDesktopNumber");
     LOAD(create, "CreateDesktop"); LOAD(go, "GoToDesktopNumber");
     LOAD(move, "MoveWindowToDesktopNumber"); LOAD(windowDesktop, "GetWindowDesktopNumber");
-    LOAD(pin, "PinWindow"); LOAD(isPinned, "IsPinnedWindow");
+    LOAD(isPinned, "IsPinnedWindow");
     LOAD(subscribe, "RegisterPostMessageHook"); LOAD(unsubscribe, "UnregisterPostMessageHook");
 #undef LOAD
     return 1;

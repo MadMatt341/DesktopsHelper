@@ -1,3 +1,4 @@
+param([string]$Output='benchmarks/local-failure-tests.json')
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 if(Get-Process DesktopsHelper -ErrorAction SilentlyContinue) { throw 'Exit the helper before fault tests' }
@@ -28,5 +29,5 @@ foreach($mode in 1,2,3,4) {
         $process.Dispose()
     }
 }
-$results | ConvertTo-Json -Depth 4 | Set-Content benchmarks/failure-tests.json
+$results | ConvertTo-Json -Depth 4 | Set-Content $Output
 $results | Format-Table

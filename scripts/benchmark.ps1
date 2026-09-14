@@ -3,7 +3,7 @@ param(
     [ValidateRange(1,120)][int]$WarmupSeconds = 5,
     [string]$Output = 'benchmarks/local-idle.json',
     [string]$Executable = 'build/release/DesktopsHelper.exe',
-    [switch]$NativeTaskbar
+    [switch]$ServiceOnly
 )
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
@@ -32,7 +32,7 @@ function Shell-Sample($Process, $Clock) {
         handles=$Process.HandleCount; threads=$Process.Threads.Count;
         gdiObjects=[BenchWindow]::GetGuiResources($Process.Handle,0); userObjects=[BenchWindow]::GetGuiResources($Process.Handle,1)}
 }
-if($NativeTaskbar) {
+if(!$ServiceOnly) {
     [uint32]$shellPid=0
     [void][BenchWindow]::GetWindowThreadProcessId([BenchWindow]::FindWindow('Shell_TrayWnd',$null),[ref]$shellPid)
     $shell=Get-Process -Id $shellPid
@@ -44,7 +44,6 @@ if($NativeTaskbar) {
 }
 $clock = [Diagnostics.Stopwatch]::StartNew()
 $launch=@{FilePath=$exe; WindowStyle='Hidden'; PassThru=$true}
-if($NativeTaskbar){$launch.ArgumentList='--native-taskbar'}
 $process = Start-Process @launch
 $result = [ordered]@{schemaVersion=2; timestampUtc=[DateTime]::UtcNow.ToString('o'); passed=$false}
 $failure = $null
@@ -60,7 +59,7 @@ try {
         [void][BenchWindow]::GetWindowThreadProcessId($window, [ref]$ownerPid)
         if ($ownerPid -eq $process.Id -and [BenchWindow]::GetProp($window, 'DesktopsHelper.Ready') -ne [IntPtr]::Zero) {
             if($null -eq $helperReadyMs){$helperReadyMs=$clock.Elapsed.TotalMilliseconds}
-            if(!$NativeTaskbar){break}
+            if($ServiceOnly){break}
             $native=[BenchWindow]::FindWindowEx([IntPtr](-3),[IntPtr]::Zero,'DesktopsHelper.Taskbar.Control.v3',$null)
             [UIntPtr]$geometry=[UIntPtr]::Zero
             if($native -ne [IntPtr]::Zero -and [BenchWindow]::GetProp($native,'DesktopsHelper.NativeOwner').ToInt64() -eq $process.Id -and
@@ -71,8 +70,8 @@ try {
         }
         Start-Sleep -Milliseconds 10
     }
-    if ($window -eq [IntPtr]::Zero -or [BenchWindow]::GetProp($window, 'DesktopsHelper.Ready') -eq [IntPtr]::Zero) { throw 'Widget did not become ready in 15 seconds' }
-    if($NativeTaskbar -and $null -eq $nativeReadyMs){throw 'Native strip did not become usable in 15 seconds'}
+    if ($window -eq [IntPtr]::Zero -or [BenchWindow]::GetProp($window, 'DesktopsHelper.Ready') -eq [IntPtr]::Zero) { throw 'Helper did not become ready in 15 seconds' }
+    if(!$ServiceOnly -and $null -eq $nativeReadyMs){throw 'Native strip did not become usable in 15 seconds'}
     $startupMs = $helperReadyMs
     Start-Sleep -Seconds $WarmupSeconds
     $process.Refresh()
@@ -80,7 +79,7 @@ try {
     $samples = [Collections.Generic.List[object]]::new()
     $measurement = [Diagnostics.Stopwatch]::StartNew()
     $shellSamples=[Collections.Generic.List[object]]::new()
-    if($NativeTaskbar){$shellSamples.Add((Shell-Sample $shell $measurement))}
+    if(!$ServiceOnly){$shellSamples.Add((Shell-Sample $shell $measurement))}
     for ($i = 0; $i -lt $Seconds; $i++) {
         Start-Sleep -Seconds 1
         $process.Refresh()
@@ -95,7 +94,7 @@ try {
             gdiObjects = [BenchWindow]::GetGuiResources($process.Handle, 0)
             userObjects = [BenchWindow]::GetGuiResources($process.Handle, 1)
         })
-        if($NativeTaskbar){$shellSamples.Add((Shell-Sample $shell $measurement))}
+        if(!$ServiceOnly){$shellSamples.Add((Shell-Sample $shell $measurement))}
     }
     $elapsedMs = $measurement.Elapsed.TotalMilliseconds
     $cpuMs = $samples[-1].cpuTotalMs - $cpuStart
@@ -105,7 +104,7 @@ try {
     $cpuPercent = 100 * $cpuMs / $elapsedMs
     $result = [ordered]@{
         schemaVersion = 2; timestampUtc = [DateTime]::UtcNow.ToString('o')
-        scenario = 'idle-visible-widget'; osBuild = "$($os.CurrentBuild).$($os.UBR)"
+        scenario = 'service-only-diagnostic'; osBuild = "$($os.CurrentBuild).$($os.UBR)"
         logicalProcessors = [Environment]::ProcessorCount
         exeSha256 = (Get-FileHash $exe).Hash
         adapterSha256 = (Get-FileHash (Join-Path (Split-Path $exe) 'VirtualDesktopAccessor.dll')).Hash
@@ -117,7 +116,7 @@ try {
         passed = ($cpuPercent -le 0.1 -and $workingPeak -le 30MB -and $privatePeak -le 20MB -and $startupMs -le 1000)
         samples = $samples
     }
-    if($NativeTaskbar) {
+    if(!$ServiceOnly) {
         $baselineCpu=100*($shellBaseline[-1].cpuTotalMs-$shellBaseline[0].cpuTotalMs)/(1000*($shellBaseline[-1].elapsedSeconds-$shellBaseline[0].elapsedSeconds))
         $nativeCpu=100*($shellSamples[-1].cpuTotalMs-$shellSamples[0].cpuTotalMs)/(1000*($shellSamples[-1].elapsedSeconds-$shellSamples[0].elapsedSeconds))
         $privateDelta=(($shellSamples.privateBytes | Measure-Object -Average).Average-($shellBaseline.privateBytes | Measure-Object -Average).Average)/1MB

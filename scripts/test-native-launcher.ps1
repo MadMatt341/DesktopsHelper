@@ -1,3 +1,4 @@
+param([string]$Output='benchmarks/local-native-launcher.json')
 $ErrorActionPreference='Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 if(Get-Process DesktopsHelper -ErrorAction SilentlyContinue){throw 'Exit helper before native launcher tests'}
@@ -8,7 +9,7 @@ if($LASTEXITCODE){throw 'Fake controller build failed'}
 Copy-Item build/release/DesktopsHelper.exe,build/release/VirtualDesktopAccessor.dll $testDirectory -Force
 $results=@()
 foreach($scenario in @('deadline','owner-crash')) {
-    $helper=Start-Process -FilePath "$testDirectory/DesktopsHelper.exe" -ArgumentList '--native-taskbar' -WindowStyle Hidden -PassThru
+    $helper=Start-Process -FilePath "$testDirectory/DesktopsHelper.exe" -WindowStyle Hidden -PassThru
     try {
         $limit=[DateTime]::UtcNow.AddSeconds(4)
         $controller=$null
@@ -35,4 +36,4 @@ foreach($scenario in @('deadline','owner-crash')) {
         if($controller){$controller.Dispose()}
     }
 }
-$results | ConvertTo-Json | Set-Content benchmarks/native-launcher-validation.json
+$results | ConvertTo-Json | Set-Content $Output

@@ -51,7 +51,7 @@ static void focus_destination(int current) {
         return;
     }
     // EnumWindows follows Z order, retaining the destination's frontmost app.
-    // Do not restore minimized apps or activate the overlay on an empty desktop.
+    // Do not restore minimized apps or activate the host on an empty desktop.
     HWND target = NULL;
     EnumWindows(find_focus, (LPARAM)&target);
     if (!target) target = GetShellWindow();
@@ -139,7 +139,7 @@ static ServiceError execute(Command c) {
         if (!adapterLoaded) return SERVICE_CONNECT_ERROR;
         if (subscribed) { vd.unsubscribe(receiver); subscribed = FALSE; }
         vd.reset();
-        if (vd.count() < 1 || vd.pin(host) < 0 || vd.isPinned(host) != 1) return SERVICE_CONNECT_ERROR;
+        if (vd.count() < 1) return SERVICE_CONNECT_ERROR;
         if (vd.subscribe(receiver, DESKTOP_EVENT) < 0) return SERVICE_CONNECT_ERROR;
         subscribed = TRUE;
     } else if (c.kind == ACTION) {

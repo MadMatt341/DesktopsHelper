@@ -7,8 +7,8 @@ gcc -shared -O2 -DFAULT_MODE=3 tests/fake-adapter.c -o build/fault-3/VirtualDesk
 if($LASTEXITCODE){throw 'Fake adapter build failed'}
 $rejected=$false
 try {
-    ./scripts/benchmark.ps1 -Seconds 10 -WarmupSeconds 1 -Executable build/fault-3/DesktopsHelper.exe -Output benchmarks/benchmark-rejects-hung-shutdown.json
+    ./scripts/benchmark.ps1 -ServiceOnly -Seconds 10 -WarmupSeconds 1 -Executable build/fault-3/DesktopsHelper.exe -Output benchmarks/local-benchmark-rejects-hung-shutdown.json
 } catch { $rejected=$true }
-$result=Get-Content benchmarks/benchmark-rejects-hung-shutdown.json -Raw | ConvertFrom-Json
+$result=Get-Content benchmarks/local-benchmark-rejects-hung-shutdown.json -Raw | ConvertFrom-Json
 if(!$rejected -or $result.passed -or $result.exitCode -ne 2) {throw 'Benchmark accepted an unclean shutdown'}
 Write-Output 'PASS: benchmark rejected hung shutdown and retained the failure result'

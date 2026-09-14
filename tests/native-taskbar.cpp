@@ -46,9 +46,7 @@ int main(){
     PostMessageW(helper,request,original,reinterpret_cast<LPARAM>(native));
     bool restored=WaitCurrent(helper,native,original);failures+=!restored;
     printf("starting desktop restored: %s\n",restored?"PASS":"FAIL");
-    bool hidden=!IsWindowVisible(helper);printf("floating overlay hidden: %s\n",hidden?"PASS":"FAIL");failures+=!hidden;
-    bool quiet=!GetPropW(helper,L"DesktopsHelper.OverlayMonitoring");
-    printf("overlay event subscriptions suspended: %s\n",quiet?"PASS":"FAIL");failures+=!quiet;
+    bool hidden=!IsWindowVisible(helper);printf("message host stays hidden: %s\n",hidden?"PASS":"FAIL");failures+=!hidden;
     SetCursorPos(cursor.x,cursor.y);if(foreground && IsWindow(foreground))SetForegroundWindow(foreground);
     root->Release();automation->Release();CoUninitialize();return failures?1:0;
 }
