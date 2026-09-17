@@ -21,6 +21,16 @@ Keep these runtime files together: `DesktopsHelper.exe`, `VirtualDesktopAccessor
 
 The checked-in adapter is hash-verified before every build. Rust/Python are needed only when [rebuilding that adapter](../vendor/README.md), not for ordinary application work. Runtime binaries statically link their C runtimes; no .NET runtime or separate VC++ redistributable is required by this build. Binaries remain unsigned, and clean-machine qualification remains outstanding.
 
+## Windows sign-in registration
+
+`./startup.ps1` enables a single per-user `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` string named `DesktopsHelper`. The command contains the quoted absolute executable path followed by the compatible `--native-taskbar` argument; commands longer than 260 characters are rejected. The default executable is `build\release\DesktopsHelper.exe` beside the script. `VirtualDesktopAccessor.dll`, `TaskbarPrototype.exe`, and `DesktopsHelper.TaskbarV4.dll` must exist beside it before enabling.
+
+Use `-ExecutablePath` to select another permanent build, and rerun setup after moving that installation. A development worktree requires an explicit permanent target (for example, `./startup.ps1 -ExecutablePath 'C:\Apps\DesktopsHelper\DesktopsHelper.exe'`); Codex worktree executable paths are rejected. `-Disable` and `-Status` are mutually exclusive and do not require an existing executable.
+
+Run in 64-bit PowerShell under the same user as Explorer in the current session. The script uses `StdRegProv` with that user's explicit HKEY_USERS SID and independently verifies the exact command through `Win32_StartupCommand`. A different Explorer owner, unavailable provider, unexpected registry type, or inconsistent inventory produces an error. After a mutation fails, it restores the prior Run value and checks the restored inventory; a failed restoration check is reported separately.
+
+`-Status` reports Windows `StartupApproved` state. Enabling refuses disabled or unknown states; it never edits that setting. Enable DesktopsHelper in Windows Settings > Apps > Startup before retrying a disabled entry. Setup creates no task or service and does not start or stop the helper, restart Explorer, or alter normal app launch behavior. No administrator rights are required. Successful inventory verification does not prove a future sign-in launch; confirm that at your next normal sign-in.
+
 ## Changing only helper C code
 
 When the existing native binaries match the unchanged native sources, reuse them:

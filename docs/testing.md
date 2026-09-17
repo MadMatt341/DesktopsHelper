@@ -8,12 +8,17 @@ Run desktop integration checks in an interactive Windows session with Explorer r
 
 | Change | Checks |
 |---|---|
+| Windows sign-in registration script | `./scripts/test-startup.ps1`; read-only `./startup.ps1 -Status` in the interactive account |
 | Documentation only | Verify links and commands against scripts; `git diff --check` |
 | Helper startup, tray, attachment coordinator | No-flag launch; health and native status; reconnect; native launcher fault tests |
 | Keyboard or desktop service | Input policy, adapter exercise, shortcuts, topology, service fault tests |
 | Native layout, protocol, ownership | Native lifecycle suite, native button test, detach/reattach; load the changed DLL after Explorer restart |
 | Adapter build | ABI/hash review, adapter exercise, lifecycle, service faults, complete regression suite |
 | Performance-sensitive work / release | Three quiet paired native benchmarks on identical binaries and OS; inspect trends and spread |
+
+## Sign-in registration checks
+
+`./scripts/test-startup.ps1` uses isolated registry and inventory fixtures. It covers enable/status/disable, identity and worktree guards, required companions, command length, registry types, complete StartupApproved state values, independent verification, and rollback success/failure. It never changes live startup values or running apps. Run it in Windows PowerShell 5.1 and PowerShell 7 when changing the setup script. `./startup.ps1 -Status` separately verifies the real current-user entry without changing it.
 
 ## Smoke checks
 

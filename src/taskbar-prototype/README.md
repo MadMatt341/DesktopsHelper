@@ -4,6 +4,8 @@ Read [architecture](../../docs/architecture.md) for process boundaries, [develop
 
 The historical `taskbar-prototype` directory and `TaskbarPrototype.exe` name refer to the current native implementation. Runtime names and window classes are kept stable because the helper, component, scripts and tests share them.
 
+Sign-in registration is an explicit setup step: build the runtime package, run `./startup.ps1` from the repository root, then `./startup.ps1 -Status`. The script verifies all native companions and registers `--native-taskbar`. See [startup setup](../../README.md#windows-sign-in) for removal and installation paths.
+
 ## Source map
 
 | File | Owns |

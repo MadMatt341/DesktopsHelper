@@ -14,6 +14,19 @@ Missing desktops up to five are created on demand; existing desktops and names a
 
 The native taskbar integration currently targets a qualified Windows 11 Taskbar.dll image. Unsupported images leave the tray and working keyboard shortcuts available, without a floating overlay. See [compatibility details](src/taskbar-prototype/README.md#compatibility) if the buttons do not appear.
 
+## Windows sign-in
+
+After [building](docs/development.md), run these from the repository root in a normal 64-bit PowerShell session under your Windows account:
+
+```powershell
+./startup.ps1
+./startup.ps1 -Status
+# Remove sign-in startup without stopping the running app:
+./startup.ps1 -Disable
+```
+
+Setup registers `build\release\DesktopsHelper.exe` with `--native-taskbar` and requires its three companion files. Use `-ExecutablePath 'C:\Apps\DesktopsHelper\DesktopsHelper.exe'` for another permanent installation. Normal app launches never change startup settings. Windows Settings > Apps > Startup can disable an entry separately; the script reports and preserves that choice. See [startup setup details](docs/development.md#windows-sign-in-registration) for worktrees, verification, and troubleshooting.
+
 ## Develop
 
 Start with the guide for your task; implementation details live one level deeper.
