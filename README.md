@@ -25,7 +25,9 @@ After [building](docs/development.md), run these from the repository root in a n
 ./startup.ps1 -Disable
 ```
 
-Setup registers `build\release\DesktopsHelper.exe` with `--native-taskbar` and requires its three companion files. Use `-ExecutablePath 'C:\Apps\DesktopsHelper\DesktopsHelper.exe'` for another permanent installation. Normal app launches never change startup settings. Windows Settings > Apps > Startup can disable an entry separately; the script reports and preserves that choice. See [startup setup details](docs/development.md#windows-sign-in-registration) for worktrees, verification, and troubleshooting.
+Sign-in startup selects Desktop 1. Normal launches, restarts, and reconnects preserve the current desktop. Rerun setup after updating to apply this behavior to an existing registration.
+
+Setup registers `build\release\DesktopsHelper.exe` with `--native-taskbar --sign-in` and requires its three companion files. Use `-ExecutablePath 'C:\Apps\DesktopsHelper\DesktopsHelper.exe'` for another permanent installation. Normal app launches never change startup settings. Windows Settings > Apps > Startup can disable an entry separately; the script reports and preserves that choice. See [startup setup details](docs/development.md#windows-sign-in-registration) for worktrees, verification, and troubleshooting.
 
 ## Develop
 

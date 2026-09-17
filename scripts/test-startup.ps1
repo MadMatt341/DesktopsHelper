@@ -70,7 +70,7 @@ try {
     $state = & $scriptPath -Status
     Assert (!$state.Registered -and $global:dhStartupTest_writes -eq 0) 'Status mutated registration.'
     $state = & $scriptPath -ExecutablePath $exe
-    Assert ($state.ServiceVerified -and $global:dhStartupTest_registration -ceq ('"' + $exe + '" --native-taskbar')) 'Enable command incorrect.'
+    Assert ($state.ServiceVerified -and $global:dhStartupTest_registration -ceq ('"' + $exe + '" --native-taskbar --sign-in')) 'Enable command incorrect.'
     $original = $global:dhStartupTest_registration
     $global:dhStartupTest_mismatchOnce = $true
     Expect-Failure { & $scriptPath -ExecutablePath $exe } 'prior Run value restored'

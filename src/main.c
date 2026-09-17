@@ -23,6 +23,7 @@ static UINT taskbarCreated;
 static NOTIFYICONDATAW tray;
 static unsigned retries;
 static BOOL wasReady;
+static BOOL signInDesktopPending;
 static ServiceError lastError;
 // Stable identity shared with the native component and diagnostic tools.
 static const wchar_t *className = L"DesktopsHelper.Widget";
@@ -61,6 +62,8 @@ static void updateService(void) {
     SetPropW(host,L"DesktopsHelper.Current",(HANDLE)(INT_PTR)(current+1));
     SetPropW(host,L"DesktopsHelper.Connection",(HANDLE)(UINT_PTR)state.generation);
     if(state.ready) {
+        // Consume once: reconnects and Explorer recovery preserve the desktop.
+        if(signInDesktopPending && service_submit(0,FALSE,NULL)) signInDesktopPending=FALSE;
         SetPropW(host,L"DesktopsHelper.Ready",(HANDLE)1);
         retries=0; KillTimer(host,RETRY_TIMER);
     } else RemovePropW(host,L"DesktopsHelper.Ready");
@@ -139,6 +142,11 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show) {
     (void)prev; (void)show;
+    int argc=0;
+    LPWSTR *argv=CommandLineToArgvW(GetCommandLineW(),&argc);
+    if(!argv)return 1;
+    for(int i=1;i<argc;++i) if(!wcscmp(argv[i],L"--sign-in"))signInDesktopPending=TRUE;
+    LocalFree(argv);
     // Legacy --native-taskbar shortcuts still work; native is now the only UI.
     const wchar_t* waiting=wcsstr(command,L"--wait-for-pid=");
     if(waiting){

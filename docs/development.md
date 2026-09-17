@@ -23,7 +23,9 @@ The checked-in adapter is hash-verified before every build. Rust/Python are need
 
 ## Windows sign-in registration
 
-`./startup.ps1` enables a single per-user `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` string named `DesktopsHelper`. The command contains the quoted absolute executable path followed by the compatible `--native-taskbar` argument; commands longer than 260 characters are rejected. The default executable is `build\release\DesktopsHelper.exe` beside the script. `VirtualDesktopAccessor.dll`, `TaskbarPrototype.exe`, and `DesktopsHelper.TaskbarV4.dll` must exist beside it before enabling.
+`./startup.ps1` enables a single per-user `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` string named `DesktopsHelper`. The command contains the quoted absolute executable path followed by `--native-taskbar --sign-in`; commands longer than 260 characters are rejected. The default executable is `build\release\DesktopsHelper.exe` beside the script. `VirtualDesktopAccessor.dll`, `TaskbarPrototype.exe`, and `DesktopsHelper.TaskbarV4.dll` must exist beside it before enabling.
+
+The `--sign-in` flag requests Desktop 1 once the desktop service first becomes ready, using its worker queue. Normal launches, reconnects, and Explorer recovery preserve the current desktop. Rerun setup after updating an existing installation to add the flag.
 
 Use `-ExecutablePath` to select another permanent build, and rerun setup after moving that installation. A development worktree requires an explicit permanent target (for example, `./startup.ps1 -ExecutablePath 'C:\Apps\DesktopsHelper\DesktopsHelper.exe'`); Codex worktree executable paths are rejected. `-Disable` and `-Status` are mutually exclusive and do not require an existing executable.
 

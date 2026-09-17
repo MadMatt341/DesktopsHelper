@@ -18,6 +18,8 @@ Run desktop integration checks in an interactive Windows session with Explorer r
 
 ## Sign-in registration checks
 
+With the helper stopped, `./scripts/test-sign-in.ps1` uses an isolated fake adapter to check normal launches, sign-in selection of Desktop 1, delayed service readiness, exact flag matching, and preservation of Desktop 2 on reconnect. It does not switch real desktops.
+
 `./scripts/test-startup.ps1` uses isolated registry and inventory fixtures. It covers enable/status/disable, identity and worktree guards, required companions, command length, registry types, complete StartupApproved state values, independent verification, and rollback success/failure. It never changes live startup values or running apps. Run it in Windows PowerShell 5.1 and PowerShell 7 when changing the setup script. `./startup.ps1 -Status` separately verifies the real current-user entry without changing it.
 
 ## Smoke checks

@@ -85,7 +85,7 @@ if (!$Disable) {
     foreach ($file in @('VirtualDesktopAccessor.dll', 'TaskbarPrototype.exe', 'DesktopsHelper.TaskbarV4.dll')) {
         if (!(Test-Path -LiteralPath (Join-Path $resolved.DirectoryName $file) -PathType Leaf)) { throw "Required native-mode companion missing: $file" }
     }
-    $desired = '"' + $executable + '" --native-taskbar'
+    $desired = '"' + $executable + '" --native-taskbar --sign-in'
     if ($desired.Length -gt 260) { throw "Run command exceeds the 260-character limit ($($desired.Length))." }
 }
 try {

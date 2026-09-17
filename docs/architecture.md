@@ -20,7 +20,7 @@ The application separates desktop operations from the shell UI. Explorer owns th
 
 The main thread acquires the session mutex and creates a hidden top-level host. It must receive Explorer's `TaskbarCreated` broadcast, so it is not a message-only window. The historical `DesktopsHelper.Widget` class is a stable discovery identity used by the component and tests; the host is never shown or pinned to virtual desktops.
 
-The keyboard thread installs its hook. The service worker initializes COM, validates the adapter ABI, queries desktop state, and subscribes to notifications. Once the service reports ready, the coordinator launches native attachment. The controller bootstraps a component on Explorer's taskbar thread and exits. Subsequent clicks travel through validated window messages to the service queue; desktop notifications publish the selected button back to Explorer.
+The keyboard thread installs its hook. The service worker initializes COM, validates the adapter ABI, queries desktop state, and subscribes to notifications. Once the service reports ready, the coordinator launches native attachment. A `--sign-in` launch also queues a one-time switch to Desktop 1; normal launches and subsequent reconnects preserve the active desktop. The controller bootstraps a component on Explorer's taskbar thread and exits. Subsequent clicks travel through validated window messages to the service queue; desktop notifications publish the selected button back to Explorer.
 
 Readiness has two meanings: `health.exe ready` checks the responsive hidden host and desktop service; `TaskbarPrototype.exe status` checks native layout. Successful service readiness alone does not prove the buttons attached.
 
