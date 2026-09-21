@@ -52,6 +52,8 @@ Test component classes and DLLs are separate from runtime identities. They also 
 
 ## Focused and fault checks
 
+`./scripts/test-diagnostics.ps1` runs disposable processes with an isolated LOCALAPPDATA directory. It checks clean exit, forced termination, duplicate marker isolation, unhandled-crash details, and next-launch detection without stopping the live helper.
+
 With the helper stopped:
 
 ```powershell

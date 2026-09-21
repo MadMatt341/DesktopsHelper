@@ -25,6 +25,8 @@ static unsigned retries;
 static BOOL wasReady;
 static BOOL signInDesktopPending;
 static ServiceError lastError;
+static const char *exitReason="message-loop-quit";
+static int exitCode;
 // Stable identity shared with the native component and diagnostic tools.
 static const wchar_t *className = L"DesktopsHelper.Widget";
 
@@ -92,7 +94,7 @@ static void menu(void) {
     SetForegroundWindow(host);
     int choice = TrackPopupMenu(m, TPM_RETURNCMD | TPM_RIGHTBUTTON, p.x, p.y, 0, host, NULL);
     DestroyMenu(m); PostMessageW(host, WM_NULL, 0, 0);
-    if (choice == ID_EXIT) DestroyWindow(host);
+    if (choice == ID_EXIT) { exitReason="tray-exit";DestroyWindow(host); }
     if (choice == ID_RETRY) { native_taskbar_detach();updateTray();retries=0;service_connect();updateService(); }
 }
 
@@ -101,13 +103,21 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     if (taskbarCreated && msg == taskbarCreated) {
         // Drop stale desktop COM subscriptions after a real Explorer replacement.
         // The new helper waits for this process to exit before taking its mutex.
-        if(native_taskbar_restart_for_shell()){DestroyWindow(hwnd);return 0;}
+        if(native_taskbar_restart_for_shell()){exitReason="explorer-replacement";DestroyWindow(hwnd);return 0;}
         native_taskbar_detach();
         addTray();
         retries=0; service_connect(); updateService();
         return 0;
     }
     switch (msg) {
+    case WM_CLOSE:
+        exitReason="window-close";DestroyWindow(hwnd);return 0;
+    case WM_QUERYENDSESSION:
+        diagnostics_event("session-end-request","windows-session",(unsigned long)lp);return TRUE;
+    case WM_ENDSESSION:
+        if(wp){exitReason="windows-session-end";DestroyWindow(hwnd);}
+        else diagnostics_event("session-end-cancelled","windows-session",(unsigned long)lp);
+        return 0;
     case WM_TIMER:
         if(wp==NATIVE_ATTACH_TIMER){native_taskbar_tick();updateTray();}
         if(wp==DEADLINE_TIMER) {
@@ -126,12 +136,14 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     case SERVICE_UPDATE: updateService(); return 0;
     case TRAY_MESSAGE: if (lp == WM_RBUTTONUP || lp == WM_CONTEXTMENU) menu(); return 0;
     case WM_DESTROY:
+        diagnostics_event("shutdown-begin",exitReason,0);
         KillTimer(hwnd,DEADLINE_TIMER); KillTimer(hwnd,RETRY_TIMER);
         native_taskbar_stop();
         RemovePropW(hwnd,L"DesktopsHelper.Ready"); RemovePropW(hwnd,L"DesktopsHelper.Current");
         RemovePropW(hwnd,L"DesktopsHelper.Connection");
         if(!input_stop(2000) || !service_stop(2000)) {
             // A hung worker could own loader/COM locks. Skip DLL detach entirely.
+            diagnostics_finish("worker-shutdown-timeout",2);
             TerminateProcess(GetCurrentProcess(),2);
         }
         Shell_NotifyIconW(NIM_DELETE, &tray);
@@ -142,45 +154,51 @@ static LRESULT CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev, PWSTR command, int show) {
     (void)prev; (void)show;
+    diagnostics_start();
     int argc=0;
     LPWSTR *argv=CommandLineToArgvW(GetCommandLineW(),&argc);
-    if(!argv)return 1;
+    if(!argv)return diagnostics_finish("command-line-failed",1);
     for(int i=1;i<argc;++i) if(!wcscmp(argv[i],L"--sign-in"))signInDesktopPending=TRUE;
     LocalFree(argv);
     // Legacy --native-taskbar shortcuts still work; native is now the only UI.
     const wchar_t* waiting=wcsstr(command,L"--wait-for-pid=");
     if(waiting){
         DWORD pid=wcstoul(waiting+wcslen(L"--wait-for-pid="),NULL,10);
-        if(!pid || pid==GetCurrentProcessId())return 1;
+        if(!pid || pid==GetCurrentProcessId())return diagnostics_finish("invalid-predecessor",1);
         HANDLE previous=OpenProcess(SYNCHRONIZE,FALSE,pid);
-        if(previous){DWORD result=WaitForSingleObject(previous,10000);CloseHandle(previous);if(result!=WAIT_OBJECT_0)return 1;}
+        if(previous){DWORD result=WaitForSingleObject(previous,10000);CloseHandle(previous);if(result!=WAIT_OBJECT_0)return diagnostics_finish("predecessor-wait-failed",1);}
     }
-    diagnostics_start();
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
     HANDLE mutex = CreateMutexW(NULL, FALSE, L"Local\\DesktopsHelper.Singleton");
-    if (!mutex) return 1;
+    if (!mutex) return diagnostics_finish("mutex-create-failed",1);
     // Retained handles can keep a mutex alive after its process exits.
     // Own it for the UI thread's lifetime instead of testing existence.
     DWORD lockResult = WaitForSingleObject(mutex, 0);
     if (lockResult != WAIT_OBJECT_0 && lockResult != WAIT_ABANDONED) {
-        CloseHandle(mutex); return lockResult == WAIT_TIMEOUT ? 0 : 1;
+        CloseHandle(mutex); return diagnostics_finish(lockResult==WAIT_TIMEOUT?"already-running":"mutex-wait-failed",lockResult==WAIT_TIMEOUT?0:1);
     }
     // Older builds created the mutex without owning it.
-    if (FindWindowW(className, NULL)) { ReleaseMutex(mutex); CloseHandle(mutex); return 0; }
+    if (FindWindowW(className, NULL)) { diagnostics_finish("existing-host",0);ReleaseMutex(mutex); CloseHandle(mutex); return 0; }
+    diagnostics_owner();
     WNDCLASSW wc = {.lpfnWndProc = windowProc, .hInstance = instance, .lpszClassName = className};
     RegisterClassW(&wc); taskbarCreated = RegisterWindowMessageW(L"TaskbarCreated");
     host = CreateWindowExW(WS_EX_TOOLWINDOW, className, L"Desktops Helper", WS_POPUP,
         0,0,0,0,NULL,NULL,instance,NULL);
-    if (!host) { ReleaseMutex(mutex); CloseHandle(mutex); return 1; }
+    if (!host) { diagnostics_finish("host-create-failed",1);ReleaseMutex(mutex); CloseHandle(mutex); return 1; }
     native_taskbar_init(host);
     // Hidden top-level host receives Explorer broadcasts; never shown or pinned.
     addTray();
     if(!input_start() || !service_start(host)) {
+        exitReason="thread-start-failed";exitCode=1;
         MessageBoxW(NULL,L"Could not start desktop helper threads.",L"Desktops Helper",MB_ICONERROR);
-        DestroyWindow(host); return 1;
+        DestroyWindow(host);
+    } else {
+        updateService();
+        MSG msg;BOOL result;
+        while ((result=GetMessageW(&msg,NULL,0,0)) > 0) { TranslateMessage(&msg); DispatchMessageW(&msg); }
+        if(result==-1){exitReason="message-loop-error";exitCode=1;DestroyWindow(host);}
     }
-    updateService();
-    MSG msg; while (GetMessageW(&msg,NULL,0,0) > 0) { TranslateMessage(&msg); DispatchMessageW(&msg); }
     // The adapter owns worker threads; process exit unloads it after unsubscription.
-    ReleaseMutex(mutex); CloseHandle(mutex); return 0;
+    diagnostics_finish(exitReason,exitCode);
+    ReleaseMutex(mutex); CloseHandle(mutex); return exitCode;
 }
