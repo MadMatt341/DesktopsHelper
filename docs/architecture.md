@@ -4,6 +4,17 @@
 
 The application separates desktop operations from the shell UI. Explorer owns the five native buttons; a helper process owns their behavior. A short-lived controller connects them at startup. Native taskbar buttons are the only visual interface, with a tray icon for status, reconnect, and exit.
 
+## Blade boundary
+
+DesktopsHelper remains independently maintained in this repository. Its Windows
+native desktops and Explorer-attached controls differ from BladeFrame's custom
+workspaces and Rail's standalone bars. Reusing implementation or adding a Blade
+adapter requires an explicit state, shortcut, lifecycle, and compatibility
+contract. Preserve useful history and tests when extracting code. The
+[Blade repository policy](https://github.com/MadMatt341/WindowManager/blob/main/docs/shell-architecture.md#repository-and-integration-policy) owns cross-product integration decisions;
+runtime helpers remain here unless independent release, consumer, dependency,
+or maintenance needs justify extraction.
+
 ## Responsibilities
 
 | Part | Responsibility | Read next for changes |

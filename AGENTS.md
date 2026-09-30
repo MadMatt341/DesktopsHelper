@@ -15,4 +15,11 @@ Keep this file a routing guide, not a duplicate manual. Keep README at product l
 
 Preserve the boundaries: desktop COM work stays off the input and Explorer UI threads; event-driven idle behavior and bounded recovery remain. Treat window/message identities as shared interfaces even when their names are historical. A loaded Explorer DLL outlives the helper: follow the development guide before replacing or claiming to test a changed component.
 
+For Blade integration or code extraction, consult the
+[shell repository policy](https://github.com/MadMatt341/WindowManager/blob/main/docs/shell-architecture.md#repository-and-integration-policy) and this repository's
+[architecture](docs/architecture.md#blade-boundary). DesktopsHelper remains an
+independent Explorer/native-desktop product. Do not treat its native desktops as
+BladeFrame workspaces or introduce duplicate shortcut owners. A separate helper
+process alone does not require a separate repository.
+
 Run checks appropriate to the change. Keep new local reports under ignored `benchmarks/local-*.json`; retained evidence belongs to its recorded hashes. Do not replace historical results with a fresh run or claim old benchmarks qualify new code.
