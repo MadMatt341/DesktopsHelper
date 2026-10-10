@@ -23,3 +23,14 @@ BladeFrame workspaces or introduce duplicate shortcut owners. A separate helper
 process alone does not require a separate repository.
 
 Run checks appropriate to the change. Keep new local reports under ignored `benchmarks/local-*.json`; retained evidence belongs to its recorded hashes. Do not replace historical results with a fresh run or claim old benchmarks qualify new code.
+
+## Documentation rules
+
+Policy version: `DocumentationRules` 0.1.1.
+Write all new and changed documentation in ASD-STE100 Simplified Technical English, Issue 9.
+Use the installed `documentation-rules` skill when a task uses or changes project documentation.
+Obey the [reading and writing rules](docs/documentation.md).
+Read the full applicable owning sections and their source and test entry points.
+When the necessary implementation and check information is available, stop reading more references.
+Keep current contracts, conditions, and checks at their owners.
+Keep long dated evidence in linked references.
